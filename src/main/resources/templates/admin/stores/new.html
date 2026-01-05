@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>店舗登録（管理者）</title>
+</head>
+
+<body>
+
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container pt-4 pb-5">
+
+    <!-- パンくず -->
+    <nav class="mb-4" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a th:href="@{/admin/stores}">店舗一覧</a>
+            </li>
+            <li class="breadcrumb-item active">店舗登録</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4 text-center">店舗登録</h1>
+
+    <form
+        method="post"
+        th:action="@{/admin/stores/create}"
+        th:object="${storeRegisterForm}"
+        enctype="multipart/form-data">
+
+        <!-- 店舗名 -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">店舗名</label>
+            <div th:if="${#fields.hasErrors('name')}"
+                 class="text-danger small"
+                 th:errors="*{name}">
+            </div>
+            <input type="text" class="form-control" th:field="*{name}">
+        </div>
+
+        <!-- カテゴリ -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">カテゴリ</label>
+            <div th:if="${#fields.hasErrors('categoryName')}"
+                 class="text-danger small"
+                 th:errors="*{categoryName}">
+            </div>
+            <input type="text" class="form-control" th:field="*{categoryName}">
+        </div>
+
+        <!-- 価格 -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">価格（円）</label>
+            <div th:if="${#fields.hasErrors('price')}"
+                 class="text-danger small"
+                 th:errors="*{price}">
+            </div>
+            <input type="number" class="form-control" th:field="*{price}">
+        </div>
+
+        <!-- 説明 -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">説明</label>
+            <div th:if="${#fields.hasErrors('description')}"
+                 class="text-danger small"
+                 th:errors="*{description}">
+            </div>
+            <textarea class="form-control" rows="4" th:field="*{description}"></textarea>
+        </div>
+
+        <!-- 営業時間 -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">営業時間</label>
+            <div th:if="${#fields.hasErrors('businessHours')}"
+                 class="text-danger small"
+                 th:errors="*{businessHours}">
+            </div>
+            <input type="text" class="form-control" th:field="*{businessHours}">
+        </div>
+
+        <!-- 定休日 -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">定休日</label>
+            <div th:if="${#fields.hasErrors('regularHoliday')}"
+                 class="text-danger small"
+                 th:errors="*{regularHoliday}">
+            </div>
+            <input type="text" class="form-control" th:field="*{regularHoliday}">
+        </div>
+
+        <!-- 郵便番号 -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">郵便番号</label>
+            <div th:if="${#fields.hasErrors('postalCode')}"
+                 class="text-danger small"
+                 th:errors="*{postalCode}">
+            </div>
+            <input type="text" class="form-control" th:field="*{postalCode}">
+        </div>
+
+        <!-- 住所 -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">住所</label>
+            <div th:if="${#fields.hasErrors('address')}"
+                 class="text-danger small"
+                 th:errors="*{address}">
+            </div>
+            <input type="text" class="form-control" th:field="*{address}">
+        </div>
+
+        <!-- 電話番号 -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">電話番号</label>
+            <div th:if="${#fields.hasErrors('phoneNumber')}"
+                 class="text-danger small"
+                 th:errors="*{phoneNumber}">
+            </div>
+            <input type="text" class="form-control" th:field="*{phoneNumber}">
+        </div>
+
+        <!-- ★ 画像アップロード -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">店舗画像</label>
+            <div th:if="${#fields.hasErrors('imageFile')}"
+                 class="text-danger small"
+                 th:errors="*{imageFile}">
+            </div>
+            <input type="file" class="form-control" th:field="*{imageFile}">
+        </div>
+
+        <!-- 画像プレビュー -->
+        <div id="imagePreview" class="mb-3"></div>
+
+        <!-- 登録ボタン -->
+        <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary w-50">
+                登録
+            </button>
+        </div>
+
+    </form>
+
+</main>
+
+<div th:replace="~{fragment :: footer}"></div>
+<div th:replace="~{fragment :: scripts}"></div>
+<script th:src="@{/js/preview.js}"></script>
+
+</body>
+</html>

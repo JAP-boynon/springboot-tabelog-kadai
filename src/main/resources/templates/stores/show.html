@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+       <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title th:text="${store.name}">店舗詳細</title>
+</head>
+
+<body>
+
+
+   <div th:replace="~{fragment :: header}"></div>
+
+
+<main class="container pt-4 pb-5">
+	
+	<p>【デバッグ】imageName = <span th:text="${store.imageName}"></span></p>
+	   
+    <!-- 店舗画像 -->
+<div class="store-detail-image mb-4">
+  <img
+    th:src="@{/storage/{file}(file=${store.imageName})}"
+    alt="店舗画像"
+    style="width:100%; max-width:700px; object-fit:cover;"
+  >
+</div>
+
+　　　　<h1 class="page-title mb-4" th:text="${store.name}"></h1>
+		<p>
+		<strong>カテゴリ：</strong>
+		<span th:text="${store.categoryName}">ラーメン</span>
+		</p>
+		
+		<p>
+			<strong>価格：</strong>
+			<span th:if="${store.price != null}"
+			      th:text="${#numbers.formatInteger(store.price, 1, 'COMMA')} + '円'">
+			      </span>
+			      <span th:unless="${store.price != null}">未設定</span>
+		</p>
+		
+		<p>
+			<strong>説明：</strong>
+			<span class="pre-wrap"
+			      th:text="${store.description}">店舗説明</span>
+		</p>
+		<p>
+			<strong>営業時間：</strong>
+			<span th:text="${store.businessHours}">11:00~22:00</span>
+		</p>
+		
+		<p>
+			<strong>定休日：</strong>
+			<span th:text="${store.regularHoliday}">水曜日</span>
+		</p>
+		
+		<p>
+            <strong>郵便番号：</strong>
+            <span th:text="${store.postalCode}">000-0000</span>
+        </p>
+		
+		<p>
+			<strong>住所：</strong>
+			<span th:text="${store.address}">名古屋◯◯区</span>
+		</p>
+		
+		<p>
+			<strong>電話番号：</strong>
+			<span th:text="${store.phoneNumber}">052-000-0000</span>
+		</p>
+		
+		<p>
+			<a th:href="@{/stores}">← 一覧に戻る</a>
+		</p>
+</main>
+<div th:replace="~{fragment :: footer}"></div>
+<div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

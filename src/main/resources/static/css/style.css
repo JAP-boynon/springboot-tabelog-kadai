@@ -1,0 +1,323 @@
+/* --全体-- */
+body {
+	margin: 0;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	background-color: #fff1a8;
+	color: #222;
+}
+
+main {
+	max-width:960px;
+	margin: 0 auto;
+	padding: 40px 20px;
+}
+
+.header {
+  padding: 24px 32px;   /* ← 縦余白を増やす */
+  }
+/* ===============================
+   トップ スライダー
+================================ */
+/* トップ画像 */
+.top-image {
+  width: 100%;
+  height: 420px;        /* ← 高さを増やす */
+  object-fit: cover;
+  border-radius: 0;     /* ← 角丸を消す */
+}
+
+
+
+.hero-lead {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.hero-sub {
+  font-size: 13px;
+  color: #666;
+  letter-spacing: 0.05em;
+}
+
+.hero {
+  position: relative;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+
+.hero-text {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  color: #fff;
+}
+
+.hero-text h2 {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #fff;
+}
+
+.hero-text p {
+  font-size: 14px;
+  opacity: 0.9;
+  color: #eee;
+}
+
+/* カテゴリ全体 */
+.categories {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px 12px;
+	margin: 30px 0 40px;
+}
+
+/* ラベル */
+.category {
+	cursor: pointer;
+}
+
+/* radioは非表示 */
+.category input {
+	display: none;
+}
+
+/* 見た目の本体 */
+.category span {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	
+	padding: 8px 18px;
+	border-radius: 999px;
+	
+	background-color: #f7f7f7;
+	border: 1px solid #000;
+	color: #000;
+	
+	font-size: 14px;
+	line-height: 1;
+	
+	white-space: nowrap;
+	transition: all 0.2s ease;
+}
+
+
+/* hover */
+.category span:hover {
+	background-color: #eaeaea;
+}
+
+/* 選択中 */
+.category input:checked + span {
+	background-color: #222;
+	color: #fff;
+	border-color: #222;
+}
+
+/* ===============================
+   カテゴリ（トップ用・タグ）
+================================ */
+.category-section {
+  margin-top: 60px;
+}
+
+.category-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.category-tag {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #222;
+  background-color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  color: #222;
+  transition: all 0.2s ease;
+}
+
+/* hoverでキュッ＋色変え */
+.category-tag:hover {
+  background-color: #222;
+  color: #fff;
+  transform: scale(0.95);
+  }
+
+/*　検索ファーム整える */
+.search-form {
+	margin-top: 20px;
+}
+
+.search-form input[type="text"] {
+	padding: 10px 14px;
+	font-size: 14px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	width: 240px;
+}
+
+/* 検索ボタン　 */
+.search-btn {
+	margin-top: 20px;
+	padding: 10px 26px;
+	font-size: 14px;
+	font-weight: bold;
+	
+	border-radius: 20px;
+	border: none;
+	
+	background-color: #bfbfbf;
+	border: 1px solid #000;
+	color: #000;
+	
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+/* ホバー時 */
+.search-btn:hover {
+	background-color: #eaeaea;
+}
+
+.search-btn {
+	border:1px solid #222;
+}
+
+.search-btn:active {
+	transform: scale(0.97);
+}
+
+/* 店舗一覧全体 */
+.store-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 24px;
+	margin-top: 24px;
+}
+ /* 店舗検索とカテゴリ検索 */
+.keyword-input,
+.category-select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* カード */
+.store-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.store-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/*画像*/
+.store-image img {
+	width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+/*中身*/
+.store-body {
+	padding: 12px;
+}
+
+.store-name {
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 6px;
+}
+
+/*評価*/
+.store-rating {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 14px;
+	color: #f5a623;
+}
+
+.store-favorite {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #e74c3c;
+}
+
+.rating-score {
+	color: #333;
+	font-size: 13px;
+}
+
+/*カテゴリ＆お気に入り*/
+.category-tag {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 20px;
+  background-color: #ffeaa7;
+  color: #2d3436;
+}
+.store-meta {
+	display: flex;
+	justify-content: space-between;
+	font-size: 13px;
+	color: #555;
+}
+
+.store-meta .favorite {
+	color: #e74c3c;
+}
+.pre-wrap {
+	/*改行文字で折り返す */
+	white-space: pre-wrap;
+}
+/* ================= ロゴ（EDIT HOUSE風） ================= */
+.logo-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 1.7rem;
+  color: #000;
+}
+
+/* ページ見出し */
+.page-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+@media screen and (min-width: 1400px) {
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}

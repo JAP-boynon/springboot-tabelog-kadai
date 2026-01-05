@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+       <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>店舗一覧（管理者）</title>
+</head>
+
+<body>
+
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container pt-4 pb-5">
+    <h1 class="page-title text-center mb-4">ADMIN STORES</h1>
+
+
+    <div class="d-flex justify-content-end mb-3">
+        <a th:href="@{/admin/stores/new}" class="btn btn-primary">
+            店舗登録
+        </a>
+    </div>
+    <div th:if="${successMessage}" class="alert alert-info">
+                                <span th:text="${successMessage}"></span>
+                            </div>    
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>画像</th>
+            <th>店舗名</th>
+            <th>カテゴリ</th>
+            <th>郵便番号</th>
+            <th>住所</th>
+            <th>電話番号</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+<tr th:each="store : ${stores}">
+    <!-- ID -->
+    <td th:text="${store.id}"></td>
+
+    <!-- 画像 -->
+    <td>
+        <img th:if="${store.imageName != null}"
+             th:src="@{/storage/{file}(file=${store.imageName})}"
+             alt="店舗画像"
+             style="width:100px; height:70px; object-fit:cover;">
+    </td>
+
+    <!-- 店舗名 -->
+    <td th:text="${store.name}"></td>
+
+    <td th:text="${store.categoryName}"></td>
+    <td th:text="${store.postalCode}"></td>
+    <td th:text="${store.address}"></td>
+    <td th:text="${store.phoneNumber}"></td>
+
+    <td>
+        <a th:href="@{/admin/stores/{id}(id=${store.id})}">詳細</a>
+    </td>
+</tr>
+</tbody>
+    </table>
+
+</main>
+<div th:replace="~{fragment :: footer}"></div>
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

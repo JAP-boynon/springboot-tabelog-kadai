@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS stores (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  image_name VARCHAR(255),
+  description TEXT,
+  price INT,
+  business_hours VARCHAR(255),
+  address VARCHAR(255) NOT NULL,
+  phone_number VARCHAR(50),
+  postal_code VARCHAR(20),
+  regular_holiday VARCHAR(100),
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
