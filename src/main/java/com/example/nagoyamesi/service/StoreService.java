@@ -96,4 +96,11 @@ public class StoreService {
 
         storeRepository.save(store);
     }
+    @Transactional
+    public void delete(Integer id) {
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+
+        storeRepository.delete(store);
+    }
 }

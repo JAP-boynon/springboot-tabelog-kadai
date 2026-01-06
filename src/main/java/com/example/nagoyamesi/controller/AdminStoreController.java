@@ -123,4 +123,14 @@ public class AdminStoreController {
 
         return "redirect:/admin/stores";
     }
+    
+    @PostMapping("/{id}/delete")
+    public String delete(
+            @PathVariable Integer id,
+            RedirectAttributes redirectAttributes
+    ) {
+        storeService.delete(id);
+        redirectAttributes.addFlashAttribute("successMessage", "店舗を削除しました。");
+        return "redirect:/admin/stores";
+    }
 }

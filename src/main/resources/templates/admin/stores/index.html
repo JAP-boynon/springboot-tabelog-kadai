@@ -23,8 +23,8 @@
                                 <span th:text="${successMessage}"></span>
                             </div>    
 
-    <table class="table">
-        <thead>
+   <table class="table">
+    <thead>
         <tr>
             <th>ID</th>
             <th>画像</th>
@@ -33,37 +33,74 @@
             <th>郵便番号</th>
             <th>住所</th>
             <th>電話番号</th>
-            <th></th>
+            <th></th> <!-- 詳細 -->
+            <th></th> <!-- 削除 -->
         </tr>
-        </thead>
+    </thead>
 
-        <tbody>
+   <tbody>
 <tr th:each="store : ${stores}">
-    <!-- ID -->
     <td th:text="${store.id}"></td>
 
-    <!-- 画像 -->
     <td>
         <img th:if="${store.imageName != null}"
              th:src="@{/storage/{file}(file=${store.imageName})}"
-             alt="店舗画像"
              style="width:100px; height:70px; object-fit:cover;">
     </td>
 
-    <!-- 店舗名 -->
     <td th:text="${store.name}"></td>
-
     <td th:text="${store.categoryName}"></td>
     <td th:text="${store.postalCode}"></td>
     <td th:text="${store.address}"></td>
     <td th:text="${store.phoneNumber}"></td>
 
+    <!-- 詳細 -->
     <td>
         <a th:href="@{/admin/stores/{id}(id=${store.id})}">詳細</a>
     </td>
+
+    <!-- 削除 -->
+    <td>
+        <a href="#"
+           class="nagoyameshi-link-danger"
+           data-bs-toggle="modal"
+           th:data-bs-target="${'#deleteStoreModal' + store.id}">
+           削除
+        </a>
+    </td>
+
+    <!-- 🔥 削除用モーダル（tr の中に置く） -->
+    <div class="modal fade"
+         th:id="${'deleteStoreModal' + store.id}"
+         tabindex="-1"
+         th:aria-labelledby="${'deleteStoreModalLabel' + store.id}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title"
+                th:id="${'deleteStoreModalLabel' + store.id}"
+                th:text="${store.name + ' を削除してもよろしいですか？'}">
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-footer">
+            <form method="post"
+                  th:action="@{/admin/stores/{id}/delete(id=${store.id})}">
+              <button type="submit" class="nagoyameshi-btn-danger">
+                削除
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
 </tr>
 </tbody>
-    </table>
+
+</table>
 
 </main>
 <div th:replace="~{fragment :: footer}"></div>

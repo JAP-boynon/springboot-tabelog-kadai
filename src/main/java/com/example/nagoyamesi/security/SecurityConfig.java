@@ -2,36 +2,50 @@ package com.example.nagoyamesi.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
             .authorizeHttpRequests(auth -> auth
-                // ★ 一般ユーザーが見るページ
                 .requestMatchers(
-                    "/",
-                    "/stores/**",
-                    "/storage/**",   // ← 画像表示に必須
+                    "/", 
+                    "/login",
                     "/css/**",
+                    "/images/**",
                     "/js/**",
-                    "/images/**"
+                    "/storage/**"
                 ).permitAll()
-
-                // ★ 管理画面はログイン必須（今は仮）
-                .requestMatchers("/admin/**").permitAll()
-
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
-
-            // 今はログイン機能未完成なので一旦OFF
-            .csrf(csrf -> csrf.disable());
+            .formLogin(form -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutSuccessUrl("/?logout")
+                .permitAll()
+            );
 
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
