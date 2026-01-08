@@ -9,5 +9,15 @@ public class AuthController {
 	public String login() {
 		return "auth/login";
 	}
+	
+	@GetMapping("/signup")
+    public String signup() {
+        return "auth/signup"; // ← 空でOK
+    }
+
+    @GetMapping("/password/reset")
+    public String passwordReset() {
+        return "auth/password_reset"; // ← 空でOK
+    }
 
 }
