@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>NAGOYAMESHI</title>
@@ -11,9 +11,12 @@
 </head>
 <body>
 
+<div th:replace="~{fragment :: header}"></div>
+<!--
 <header class="header">
   <h1 class="logo-text">NAGOYAMESHI</h1>
 </header>
+-->
 
 <!-- ===== トップ画像スライド ===== -->
 <div class="hero">
@@ -49,6 +52,18 @@
 
 <!-- ===== ここから今までの検索エリア ===== -->
 <main class="top">
+	<!-- ログイン／ログアウトメッセージ -->
+  <div class="container mt-3">
+
+    <div th:if="${param.loggedIn}" class="alert alert-info text-center">
+      ログインしました
+    </div>
+
+    <div th:if="${param.loggedOut}" class="alert alert-info text-center">
+      ログアウトしました
+    </div>
+
+  </div>
   <h2>NAGOYAのB級グルメを探す</h2>
 
   <form th:action="@{/stores}" method="get" class="search-form">

@@ -47,6 +47,9 @@
                             ログイン
                         </a>
                     </li>
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                                <a class="nav-link" th:href="@{/signup}">新規登録</a>
+                            </li>  
 
                     <!-- 一般ユーザー -->
                    <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_GENERAL')">
