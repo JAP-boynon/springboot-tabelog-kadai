@@ -26,6 +26,7 @@ public class UserDetailsServicelmpl implements UserDetailsService {
      * Spring Security がログイン時に呼び出すメソッド
      * username には login.html の name="username" の値（＝メールアドレス）が入る
      */
+    
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {

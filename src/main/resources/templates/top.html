@@ -62,6 +62,10 @@
     <div th:if="${param.loggedOut}" class="alert alert-info text-center">
       ログアウトしました
     </div>
+    
+    <div th:if="${successMessage}" class="alert alert-info">
+                        <span th:text="${successMessage}"></span>
+                    </div>   
 
   </div>
   <h2>NAGOYAのB級グルメを探す</h2>

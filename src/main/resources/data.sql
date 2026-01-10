@@ -44,3 +44,58 @@ INSERT INTO stores (
   '名古屋市千種区',
   '052-111-1111'
 );
+
+-- roles（初期マスタなのでOK）
+--INSERT INTO roles (id, name) VALUES
+--(1, 'ROLE_GENERAL'),
+--(2, 'ROLE_ADMIN');
+
+
+-- 一般ユーザー
+-- INSERT INTO users (
+  --name,
+  --furigana,
+  --postal_code,
+  --address,
+  --phone_number,
+  --email,
+  --password,
+  --role_id,
+  --enabled
+--) VALUES (
+ -- '一般 太郎',
+  --'イッパン タロウ',
+ -- '460-0001',
+ -- '名古屋市中区',
+ -- '090-1111-1111',
+  --'user@test.com',
+ -- '$2a$10$myFiCQ356fKd4dDnb12TM.hkYI/xbuCHLuEmY8dSIDiIXZnLQq8y',
+ -- 1,
+ -- true
+--); 
+
+
+
+-- 管理者ユーザー
+
+--INSERT INTO users (
+  --name,
+  --furigana,
+  --postal_code,
+  --address,
+  --phone_number,
+  --email,
+  --password,
+  --role_id,
+  --enabled
+--) VALUES (
+  --'管理者 花子',
+  --'カンリシャ ハナコ',
+  --'460-0002',
+  --'名古屋市東区',
+  --'090-2222-2222',
+  --'admin@test.com',
+  --'$2a$10$myFiCQ356fKd4dDnb12TM.hkYI/xbuCHLuEmY8dSIDiIXZnLQq8y',
+  --2,
+  --true
+--);
