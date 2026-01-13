@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.nagoyamesi.entity.Role;
 import com.example.nagoyamesi.entity.User;
 import com.example.nagoyamesi.form.SignupForm;
+import com.example.nagoyamesi.form.UserEditForm;
 import com.example.nagoyamesi.repository.RoleRepository;
 import com.example.nagoyamesi.repository.UserRepository;
 
@@ -56,6 +57,20 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
+	@Transactional
+    public void update(UserEditForm userEditForm) {
+        User user = userRepository.getReferenceById(userEditForm.getId());
+        
+        user.setName(userEditForm.getName());
+        user.setFurigana(userEditForm.getFurigana());
+        user.setPostalCode(userEditForm.getPostalCode());
+        user.setAddress(userEditForm.getAddress());
+        user.setPhoneNumber(userEditForm.getPhoneNumber());
+        user.setEmail(userEditForm.getEmail());      
+        
+        userRepository.save(user);
+    }    
+	
 	//メールアドレスが登録済みかどうかチェックする
 	public boolean isEmailRegistered(String email) {
 	    System.out.println("★★ email check: " + email);
@@ -72,4 +87,9 @@ public class UserService {
 		user.setEnabled(true);
 		userRepository.save(user);
 	}
+	// メールアドレスが変更されたかどうかをチェックする
+    public boolean isEmailChanged(UserEditForm userEditForm) {
+        User currentUser = userRepository.getReferenceById(userEditForm.getId());
+        return !userEditForm.getEmail().equals(currentUser.getEmail());      
+    }  
 }

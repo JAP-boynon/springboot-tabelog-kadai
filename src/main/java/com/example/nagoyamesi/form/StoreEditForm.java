@@ -45,4 +45,5 @@ public class StoreEditForm {
 
     @NotBlank(message = "電話番号を入力してください。")
     private String phoneNumber;
+
 }
