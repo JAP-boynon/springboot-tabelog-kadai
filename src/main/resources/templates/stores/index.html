@@ -12,92 +12,215 @@
 
 <main class="container pt-4 pb-5">
 
-    <h2>店舗一覧</h2>
+  <div class="row">
 
-    <!-- 検索フォーム -->
-    <form method="get" action="/stores" class="search-form">
+    <!-- 🔹 左：検索サイドバー -->
+    <div class="col-md-3">
 
-        <!-- 店舗名検索 -->
-        <input
-            type="text"
-            name="keyword"
-            class="keyword-input"
-            placeholder="店舗名"
-            th:value="${keyword}"
-        >
+      <!-- 検索フォーム（今あるやつをここへ） -->
+      <form method="get" th:action="@{/stores}" class="mb-4">
 
-        <!-- カテゴリ選択 -->
-        <select name="category" class="category-select">
-            <option value="">カテゴリ</option>
-            <option value="焼肉" th:selected="${param.category == '焼肉'}">焼肉</option>
-            <option value="寿司" th:selected="${param.category == '寿司'}">寿司</option>
-            <option value="ラーメン" th:selected="${param.category == 'ラーメン'}">ラーメン</option>
-            <option value="居酒屋" th:selected="${param.category == '居酒屋'}">居酒屋</option>
-        </select>
-
-        <button type="submit">検索</button>
-    </form>
-
-    <!-- 並び替えフォーム -->
-    <form method="get" action="/stores" class="sort-form">
-        <input type="hidden" name="keyword" th:value="${param.keyword}">
-        <input type="hidden" name="category" th:value="${param.category}">
-
-        <select name="sort">
-            <option value="">並び替え</option>
-            <option value="rating_desc" th:selected="${param.sort == 'rating_desc'}">
-                評価が高い順
-            </option>
-            <option value="review_desc" th:selected="${param.sort == 'review_desc'}">
-                口コミ数が多い順
-            </option>
-        </select>
-
-        <button type="submit">適用</button>
-    </form>
-
-    <!-- 店舗一覧 -->
-    <div class="store-list">
-        <div class="store-card" th:each="store : ${stores}">
-
-           <div class="store-image">
-			   
-          <img
-  th:src="@{/storage/{file}(file=${store.imageName})}"
-  alt="店舗画像"
-  style="width:100%; height:140px; object-fit:cover;"
->
-
-            <div class="store-body">
-                <h3 class="store-name" th:text="${store.name}">店名</h3>
-
-                <div class="store-rating">
-                    <span class="stars">★★★★☆</span>
-                    <span class="rating-score">4.2</span>
-                </div>
-
-                <div class="store-meta">
-                    <span class="category-tag"
-                          th:text="${store.categoryName}">
-                        焼肉
-                    </span>
-                    <span class="favorite">♡ 12</span>
-                </div>
-               
-                <div class="store-detail-link">
-                <a th:href="@{/stores/__${store.id}__}">詳細を見る</a>
-                </div>
-                
-            </div>
-
+        <div class="mb-3">
+          <input type="text"
+                 name="keyword"
+                 class="form-control"
+                 placeholder="店名・カテゴリ"
+                 th:value="${keyword}">
         </div>
+
+        <div class="mb-3">
+          <select name="category" class="form-select">
+            <option value="">カテゴリから探す</option>
+             <option value="居酒屋" th:selected="${category == '居酒屋'}">居酒屋</option>
+            <option value="焼肉" th:selected="${category == '焼肉'}">焼肉</option>
+            <option value="寿司" th:selected="${category == '寿司'}">寿司</option>
+            <option value="定食" th:selected="${category == '定食'}">定食</option>
+            <option value="ラーメン" th:selected="${category == 'ラーメン'}">ラーメン</option>
+            <option value="カレー" th:selected="${category == 'カレー'}">カレー</option>
+            <option value="中華料理" th:selected="${category == '中華料理'}">中華料理</option>
+            <option value="イタリア料理" th:selected="${category == 'イタリア料理'}">イタリア料理</option>
+            <option value="スイーツ" th:selected="${category == 'スイーツ'}">スイーツ</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <select name="price" class="form-select">
+            <option value="">予算から探す</option>
+            <option value="500">〜500円</option>
+            <option value="1000">〜1000円</option>
+            <option value="1500">〜1500円</option>
+            <option value="2000">〜2000円</option>
+            <option value="3000">〜3000円</option>
+            <option value="5000">〜5000円</option>
+            <option value="10000">〜10000円</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-danger w-100">
+          検索
+        </button>
+
+      </form>
     </div>
 
-    <!-- 店舗が0件のとき -->
-    <p th:if="${#lists.isEmpty(stores)}">
-        該当する店舗がありません。
-    </p>
+    <!-- 🔹 右：店舗一覧 -->
+    <div class="col-md-9">
 
+      <!-- 検索結果件数 
+      <p class="fs-5 mb-3"
+         th:text="${'検索結果：' + storePage.totalElements + '件'}"></p>
+         -->
+         
+         
+         <div class="d-flex justify-content-between align-items-center mb-3">
+
+  <p class="fs-5 mb-0"
+     th:text="${'検索結果：' + storePage.totalElements + '件'}"></p>
+     
+ <!-- 並び替え -->
+  <form method="get" th:action="@{/stores}">
+  
+  <!-- 🔽 既存の検索条件を保持する（重要） -->
+  <input type="hidden" name="keyword" th:value="${keyword}">
+  <input type="hidden" name="category" th:value="${category}">
+  <input type="hidden" name="price" th:value="${price}">
+
+  <!-- 🔽 並び替え -->
+  <select name="sort"
+          class="form-select"
+          onchange="this.form.submit()">
+
+    <option value="">並び替え</option>
+    <option value="new_desc" th:selected="${sort == 'new_desc'}">
+      新着順
+    </option>
+    <option value="rating_desc" th:selected="${sort == 'rating_desc'}">
+      評価が高い順
+    </option>
+    <option value="price_asc" th:selected="${sort == 'price_asc'}">
+      価格が安い順
+    </option>
+    <option value="review_desc" th:selected="${sort == 'review_desc'}">
+      口コミが多い順
+    </option>
+  </select>
+
+</form>
+</div>
+
+      <!-- 店舗カード -->
+      <div th:each="store : ${storePage}" class="mb-3">
+
+        <a th:href="@{/stores/{id}(id=${store.id})}"
+          class="store-card-link">
+           <div class="store-card">
+
+         
+            <div class="row g-0">
+
+              <!-- 画像 -->
+             <div class="col-md-4 store-image">
+             <img
+              th:src="@{/storage/{file}(file=${store.imageName})}"
+               alt="店舗画像">
+               </div>
+
+              <!-- 情報 -->
+              <div class="col-md-8">
+                <div class="card-body">
+
+                  <h5 th:text="${store.name}"></h5>
+
+                  <div class="text-warning mb-1">
+                    ★★★★☆
+                    <span class="text-dark">4.2</span>
+                    <span class="text-muted">(12件)</span>
+                  </div>
+
+                <span class="category-tag"
+                 th:text="${store.categoryName}"></span>
+            
+
+                  <p class="mt-2 text-muted"
+                     th:text="${store.description}"></p>
+
+                  <p class="fw-bold">3,500円〜5,500円</p>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </a>
+      </div>
+
+      <!-- 🔹 ページネーション -->
+      <div th:if="${storePage.totalPages > 1}"
+           class="d-flex justify-content-center mt-4">
+
+        <ul class="pagination">
+
+           <!-- 前へ -->
+      <li class="page-item">
+        <span th:if="${storePage.first}"
+              class="page-link disabled">前</span>
+
+        <a th:unless="${storePage.first}"
+           th:href="@{/stores(
+             page=${storePage.number - 1},
+             keyword=${keyword},
+             category=${category},
+             price=${price},
+             sort=${sort}
+           )}"
+           class="page-link">
+           前
+        </a>
+      </li>
+
+      <!-- ページ番号 -->
+      <li th:each="i : ${#numbers.sequence(0, storePage.totalPages - 1)}"
+          class="page-item">
+
+        <span th:if="${i == storePage.number}"
+              class="page-link active"
+              th:text="${i + 1}">
+        </span>
+
+        <a th:unless="${i == storePage.number}"
+           th:href="@{/stores(
+             page=${i},
+             keyword=${keyword},
+             category=${category},
+             price=${price},
+             sort=${sort}
+           )}"
+           class="page-link"
+           th:text="${i + 1}">
+        </a>
+      </li>
+
+      <!-- 次へ -->
+      <li class="page-item">
+        <span th:if="${storePage.last}"
+              class="page-link disabled">次</span>
+
+        <a th:unless="${storePage.last}"
+           th:href="@{/stores(
+             page=${storePage.number + 1},
+             keyword=${keyword},
+             category=${category},
+             price=${price},
+             sort=${sort}
+           )}"
+           class="page-link">
+           次
+        </a>
+      </li>
+
+    </ul>
+</div>
 </main>
 
 <div th:replace="~{fragment :: footer}"></div>

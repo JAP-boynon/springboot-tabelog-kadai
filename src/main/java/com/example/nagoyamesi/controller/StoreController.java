@@ -1,7 +1,10 @@
 package com.example.nagoyamesi.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,15 +25,11 @@ public class StoreController {
 
     /**
      * トップページ
-     * ・店舗名入力
-     * ・カテゴリ選択
-     * ・検索ボタン
      */
     @GetMapping("/")
     public String top() {
         return "top";
     }
-
     /**
      * 店舗一覧ページ（検索結果）
      *
@@ -42,46 +41,101 @@ public class StoreController {
      */
     @GetMapping("/stores")
     public String index(
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String category,
-            Model model
+        @RequestParam(required = false) String keyword,
+        @RequestParam(required = false) String category,
+        @RequestParam(required = false) Integer price,
+        @RequestParam(required = false) String sort,
+        @PageableDefault(size = 10) Pageable pageable,
+        Model model
     ) {
-        List<Store> stores;
+
+        /* =========================
+           ① 並び替え条件を決める
+           ========================= */
+        Sort sortCondition;
+
+        if ("rating_desc".equals(sort)) {
+            sortCondition = Sort.by(Sort.Direction.DESC, "averageRating");
+        } else if ("price_asc".equals(sort)) {
+            sortCondition = Sort.by(Sort.Direction.ASC, "price");
+        } else if ("review_desc".equals(sort)) {
+            sortCondition = Sort.by(Sort.Direction.DESC, "reviewCount");
+        } else {
+            // デフォルト：新着順
+            sortCondition = Sort.by(Sort.Direction.DESC, "createdAt");
+        }
+
+        /* =========================
+           ② Pageable に合体させる
+           ========================= */
+        Pageable sortedPageable =
+            PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                sortCondition
+            );
+
+        /* =========================
+           ③ 検索条件の判定
+           ========================= */
+        Page<Store> storePage;
 
         boolean hasKeyword = keyword != null && !keyword.isEmpty();
         boolean hasCategory = category != null && !category.isEmpty();
+        boolean hasPrice = price != null;
 
-        if (hasKeyword && hasCategory) {
-            // 店舗名 + カテゴリ
-            stores = storeRepository
-                    .findByNameContainingAndCategoryName(keyword, category);
+        if (hasKeyword && hasCategory && hasPrice) {
+            storePage = storeRepository
+                .findByNameContainingAndCategoryNameAndPriceLessThanEqual(
+                    keyword, category, price, sortedPageable);
+
+        } else if (hasKeyword && hasCategory) {
+            storePage = storeRepository
+                .findByNameContainingAndCategoryName(
+                    keyword, category, sortedPageable);
+
+        } else if (hasCategory && hasPrice) {
+            storePage = storeRepository
+                .findByCategoryNameAndPriceLessThanEqual(
+                    category, price, sortedPageable);
 
         } else if (hasKeyword) {
-            // 店舗名のみ
-            stores = storeRepository.findByNameContaining(keyword);
+            storePage = storeRepository
+                .findByNameContaining(keyword, sortedPageable);
 
         } else if (hasCategory) {
-            // カテゴリのみ
-            stores = storeRepository.findByCategoryName(category);
+            storePage = storeRepository
+                .findByCategoryName(category, sortedPageable);
+
+        } else if (hasPrice) {
+            storePage = storeRepository
+            	    .findByPriceLessThanEqual(price, sortedPageable);
 
         } else {
-            // 条件なし
-            stores = storeRepository.findAll();
+            storePage = storeRepository.findAll(sortedPageable);
         }
 
-        // 検索条件をビューに返す（教材③）
-        model.addAttribute("stores", stores);
+        /* =========================
+           ④ View に渡す
+           ========================= */
+        model.addAttribute("storePage", storePage);
         model.addAttribute("keyword", keyword);
         model.addAttribute("category", category);
+        model.addAttribute("price", price);
+        model.addAttribute("sort", sort);
 
         return "stores/index";
     }
-    
+
+    /**
+     * 店舗詳細ページ
+     */
     @GetMapping("/stores/{id}")
     public String show(@PathVariable Integer id, Model model) {
-    	Store store = storeRepository.findById(id).orElseThrow(() ->  new RuntimeException("店舗が見つかりません"));
-    	
-    	model.addAttribute("store", store);
-    	return "stores/show";
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+
+        model.addAttribute("store", store);
+        return "stores/show";
     }
-    }
+}

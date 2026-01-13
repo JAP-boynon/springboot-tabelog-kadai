@@ -218,18 +218,31 @@ main {
   font-size: 14px;
 }
 
-/* カード */
-.store-card {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* カード全体リンク */
+.store-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
+/* 店舗カード */
+.store-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+
+  padding: 16px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* hover */
 .store-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 /*画像*/
@@ -273,24 +286,26 @@ main {
 }
 
 /*カテゴリ＆お気に入り*/
-.category-tag {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 4px 10px;
-  font-size: 12px;
-  border-radius: 20px;
-  background-color: #ffeaa7;
-  color: #2d3436;
-}
+
+/*
 .store-meta {
-	display: flex;
-	justify-content: space-between;
-	font-size: 13px;
-	color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+}
+*/
+
+.category-tag {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  background-color: #f2f2f2;
+  border-radius: 999px;
 }
 
-.store-meta .favorite {
-	color: #e74c3c;
+.favorite {
+  font-size: 0.85rem;
+  color: #e25555;
 }
 .pre-wrap {
 	/*改行文字で折り返す */
