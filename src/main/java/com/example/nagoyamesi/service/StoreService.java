@@ -13,16 +13,21 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.nagoyamesi.entity.Store;
 import com.example.nagoyamesi.form.StoreEditForm;
 import com.example.nagoyamesi.form.StoreRegisterForm;
+import com.example.nagoyamesi.repository.ReviewRepository;
 import com.example.nagoyamesi.repository.StoreRepository;
 
 @Service
 public class StoreService {
 
     private final StoreRepository storeRepository;
+    private final ReviewRepository reviewRepository; 
 
-    public StoreService(StoreRepository storeRepository) {
+    public StoreService(StoreRepository storeRepository,
+    		ReviewRepository reviewRepository) {
         this.storeRepository = storeRepository;
+        this.reviewRepository = reviewRepository;
     }
+    
 
     @Transactional
     public void create(StoreRegisterForm form) {
@@ -103,4 +108,13 @@ public class StoreService {
 
         storeRepository.delete(store);
     }
+    
+    //  レビュー
+    @Transactional
+    public void updateAverageRating(Store store) {
+        Double avg = reviewRepository.findAverageRatingByStore(store);
+        store.setAverageRating(avg != null ? avg : 0.0);
+        storeRepository.save(store);
+    }
+
 }

@@ -94,7 +94,7 @@
 
       <label class="category">
         <input type="radio" name="category" value="居酒屋"
-        th:checked="${category == '居酒屋'}">>
+        th:checked="${category == '居酒屋'}">
         <span>居酒屋</span>
       </label>
 
@@ -114,29 +114,26 @@
   <a th:each="store : ${highRatedStores}"
      th:href="@{/stores/{id}(id=${store.id})}"
      class="store-card top-store-card">
+   
      
      <img th:if="${store.imageName != null}"
-     th:src="@{/storage/{file}(file=${store.imageName})}">
+     th:src="@{/storage/{file}(file=${store.imageName})}"
+      alt="店舗画像">
 
 <img th:unless="${store.imageName != null}"
-     th:src="@{/images/no-image.png}">
-     <!--
-   <img th:if="${store.imageName != null}"
-     th:src="@{/storage/{file}(file=${store.imageName})}"
-     alt="店舗画像">
-
-    <img th:unless="${store.imageName != null}"
      th:src="@{/images/no-image.png}"
      alt="NO IMAGE">
-     -->
+   
      
     <div class="store-info">
       <h3 th:text="${store.name}"></h3>
-       <div class="store-rating">
-    ★★★★☆
-    <span class="rating-score"
-          th:text="${store.averageRating}"></span>
-  </div>
+      
+     <div class="store-rating">
+  <span th:each="i : ${#numbers.sequence(1,5)}">
+    <span th:text="${i <= store.averageRating ? '★' : '☆'}"></span>
+  </span>
+  <span class="rating-score" th:text="${store.averageRating}"></span>
+</div>
 
   <span class="category-badge"
         th:text="${store.categoryName}"></span>
@@ -154,15 +151,13 @@
      class="store-card top-store-card">
      
      <img th:if="${store.imageName != null}"
-     th:src="@{/storage/{file}(file=${store.imageName})}">
+     th:src="@{/storage/{file}(file=${store.imageName})}"
+     alt="店舗画像">
 
-    <img th:unless="${store.imageName != null}"
-     th:src="@{/images/no-image.png}">
-     <!--
     <img th:unless="${store.imageName != null}"
      th:src="@{/images/no-image.png}"
      alt="NO IMAGE">
-     -->
+    
     <div class="store-info">
       <h3 th:text="${store.name}"></h3>
       <span th:text="${store.categoryName}"></span>

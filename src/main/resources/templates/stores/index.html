@@ -138,11 +138,15 @@
 
                   <h5 th:text="${store.name}"></h5>
 
-                  <div class="text-warning mb-1">
-                    ★★★★☆
-                    <span class="text-dark">4.2</span>
-                    <span class="text-muted">(12件)</span>
-                  </div>
+                 <div class="store-rating">
+                <span th:each="i : ${#numbers.sequence(1,5)}">
+               <span th:text="${i <= T(java.lang.Math).round(store.averageRating) ? '★' : '☆'}"></span>
+                </span>
+                <span class="rating-score" th:text="${store.averageRating}"></span>
+                <!--⬇️消していいかも？span12件-->
+                 <span class="text-muted">(12件)</span>
+                 
+                </div>
 
                 <span class="category-tag"
                  th:text="${store.categoryName}"></span>

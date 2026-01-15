@@ -1,12 +1,16 @@
 package com.example.nagoyamesi.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -57,5 +61,8 @@ public class Store {
 	
 	@Column(name = "average_rating")
 	private Double averageRating;
+	
+	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+	private List<Review> reviews = new ArrayList<>();
 
 }
