@@ -27,12 +27,12 @@
 
 　　　　<h1 class="page-title mb-4" th:text="${store.name}"></h1>
 
-    <div class="store-rating">
-     <span th:each="i : ${#numbers.sequence(1,5)}">
-    <span th:text="${i <= T(java.lang.Math).round(store.averageRating) ? '★' : '☆'}"></span>
-    </span>
-     <span class="rating-score" th:text="${store.averageRating}"></span>
-    </div>
+   <div class="store-rating">
+  <span th:each="i : ${#numbers.sequence(1,5)}">
+    <span th:text="${i <= (store.averageRating ?: 0) ? '★' : '☆'}"></span>
+  </span>
+  <span class="rating-score" th:text="${store.averageRating}"></span>
+</div>
     
 		<p>
 		<strong>カテゴリ：</strong>

@@ -128,9 +128,9 @@
     <div class="store-info">
       <h3 th:text="${store.name}"></h3>
       
-     <div class="store-rating">
+    <div class="store-rating">
   <span th:each="i : ${#numbers.sequence(1,5)}">
-    <span th:text="${i <= store.averageRating ? '★' : '☆'}"></span>
+    <span th:text="${i <= (store.averageRating ?: 0) ? '★' : '☆'}"></span>
   </span>
   <span class="rating-score" th:text="${store.averageRating}"></span>
 </div>
