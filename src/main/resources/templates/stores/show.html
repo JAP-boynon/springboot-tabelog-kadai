@@ -13,8 +13,34 @@
 
 
 <main class="container pt-4 pb-5">
-	
+	<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+
+    <li class="breadcrumb-item">
+      <a th:href="@{/}">ホーム</a>
+    </li>
+
+    <li class="breadcrumb-item">
+      <a th:href="@{/stores}">店舗一覧</a>
+    </li>
+
+    <li class="breadcrumb-item">
+      <a th:href="@{/stores/{id}(id=${store.id})}"
+         th:text="${store.name}">
+      </a>
+    </li>
+
+    <li class="breadcrumb-item active"
+        aria-current="page">
+      レビュー
+    </li>
+
+  </ol>
+</nav>
+
+	<!--
 	<p>【デバッグ】imageName = <span th:text="${store.imageName}"></span></p>
+	-->
 	   
     <!-- 店舗画像 -->
 <div class="store-detail-image mb-4">

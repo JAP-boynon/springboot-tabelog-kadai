@@ -322,6 +322,26 @@ main {
   object-fit: cover;
 }
 
+/*店舗詳細*/
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 12px;
+}
+
+.breadcrumb-item a {
+  color: #2c5f7c; /*くすみブルー*/
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #999;
+}
+.breadcrumb-item a:hover {
+  color: #16324f;
+  text-decoration: underline;
+}
+
 
 /*中身*/
 .store-body {
