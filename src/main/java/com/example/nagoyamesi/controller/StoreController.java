@@ -27,7 +27,17 @@ public class StoreController {
      * トップページ
      */
     @GetMapping("/")
-    public String top() {
+    public String top(Model model) {
+    	//評価高いお店
+    	model.addAttribute(
+    			  "highRatedStores",
+    			  storeRepository.findTop6ByOrderByAverageRatingDesc()
+    			);
+    	//新着のお店
+    	model.addAttribute(
+    			  "newStores",
+    			  storeRepository.findTop6ByOrderByCreatedAtDesc()
+    			);
         return "top";
     }
     /**
@@ -52,18 +62,25 @@ public class StoreController {
         /* =========================
            ① 並び替え条件を決める
            ========================= */
-        Sort sortCondition;
+    	Sort sortCondition;
 
-        if ("rating_desc".equals(sort)) {
-            sortCondition = Sort.by(Sort.Direction.DESC, "averageRating");
-        } else if ("price_asc".equals(sort)) {
-            sortCondition = Sort.by(Sort.Direction.ASC, "price");
-        } else if ("review_desc".equals(sort)) {
-            sortCondition = Sort.by(Sort.Direction.DESC, "reviewCount");
-        } else {
-            // デフォルト：新着順
-            sortCondition = Sort.by(Sort.Direction.DESC, "createdAt");
-        }
+    	// デフォルト：新着順
+    	if (sort == null || sort.isEmpty() || "new_desc".equals(sort)) {
+    	    sortCondition = Sort.by(Sort.Direction.DESC, "createdAt");
+
+    	} else if ("rating_desc".equals(sort)) {
+    	    sortCondition = Sort.by(Sort.Direction.DESC, "averageRating");
+
+    	} else if ("price_asc".equals(sort)) {
+    	    sortCondition = Sort.by(Sort.Direction.ASC, "price");
+
+    	} else if ("review_desc".equals(sort)) {
+    	    sortCondition = Sort.by(Sort.Direction.DESC, "reviewCount");
+
+    	} else {
+    	    // 万が一の保険
+    	    sortCondition = Sort.by(Sort.Direction.DESC, "createdAt");
+    	}
 
         /* =========================
            ② Pageable に合体させる

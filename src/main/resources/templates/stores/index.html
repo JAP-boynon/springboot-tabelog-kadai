@@ -86,34 +86,41 @@
   <input type="hidden" name="price" th:value="${price}">
 
   <!-- 🔽 並び替え -->
-  <select name="sort"
-          class="form-select"
-          onchange="this.form.submit()">
+ <select name="sort"
+        class="form-select"
+        onchange="this.form.submit()">
 
-    <option value="">並び替え</option>
-    <option value="new_desc" th:selected="${sort == 'new_desc'}">
-      新着順
-    </option>
-    <option value="rating_desc" th:selected="${sort == 'rating_desc'}">
-      評価が高い順
-    </option>
-    <option value="price_asc" th:selected="${sort == 'price_asc'}">
-      価格が安い順
-    </option>
-    <option value="review_desc" th:selected="${sort == 'review_desc'}">
-      口コミが多い順
-    </option>
-  </select>
+  <option value="new_desc"
+          th:selected="${sort == null || sort == '' || sort == 'new_desc'}">
+    新着順
+  </option>
+
+  <option value="rating_desc"
+          th:selected="${sort == 'rating_desc'}">
+    評価が高い順
+  </option>
+
+  <option value="price_asc"
+          th:selected="${sort == 'price_asc'}">
+    価格が安い順
+  </option>
+
+  <option value="review_desc"
+          th:selected="${sort == 'review_desc'}">
+    口コミが多い順
+  </option>
+
+</select>
 
 </form>
 </div>
 
       <!-- 店舗カード -->
-      <div th:each="store : ${storePage}" class="mb-3">
+     <div th:each="store : ${storePage.content}" class="mb-3">
 
         <a th:href="@{/stores/{id}(id=${store.id})}"
           class="store-card-link">
-           <div class="store-card">
+           <div class="store-card list-store-card">
 
          
             <div class="row g-0">

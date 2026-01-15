@@ -75,35 +75,105 @@
 
     <div class="categories">
       <label class="category">
-        <input type="radio" name="category" value="">
+        <input type="radio" name="category" value=""
+        th:checked="${category == null || category == ''}">
         <span>すべて</span>
       </label>
 
       <label class="category">
-        <input type="radio" name="category" value="ラーメン">
+      <input type="radio" name="category" value="ラーメン"
+       th:checked="${category == 'ラーメン'}">
         <span>ラーメン</span>
       </label>
 
       <label class="category">
-        <input type="radio" name="category" value="焼肉">
+       <input type="radio" name="category" value="焼肉"
+       th:checked="${category == '焼肉'}">
         <span>焼肉</span>
       </label>
 
       <label class="category">
-        <input type="radio" name="category" value="居酒屋">
+        <input type="radio" name="category" value="居酒屋"
+        th:checked="${category == '居酒屋'}">>
         <span>居酒屋</span>
       </label>
 
       <label class="category">
-        <input type="radio" name="category" value="スイーツ">
+        <input type="radio" name="category" value="スイーツ"
+        th:checked="${category == 'スイーツ'}">
         <span>スイーツ</span>
       </label>
     </div>
 
     <button type="submit" class="search-btn">検索</button>
   </form>
-  <section class="category-section">
-  <h3 class="category-title">カテゴリから探す</h3>
+  
+  <section class="top-section">
+  <h2 class="section-title">評価が高いお店</h2>
+<div class="store-grid">
+  <a th:each="store : ${highRatedStores}"
+     th:href="@{/stores/{id}(id=${store.id})}"
+     class="store-card top-store-card">
+     
+     <img th:if="${store.imageName != null}"
+     th:src="@{/storage/{file}(file=${store.imageName})}">
+
+<img th:unless="${store.imageName != null}"
+     th:src="@{/images/no-image.png}">
+     <!--
+   <img th:if="${store.imageName != null}"
+     th:src="@{/storage/{file}(file=${store.imageName})}"
+     alt="店舗画像">
+
+    <img th:unless="${store.imageName != null}"
+     th:src="@{/images/no-image.png}"
+     alt="NO IMAGE">
+     -->
+     
+    <div class="store-info">
+      <h3 th:text="${store.name}"></h3>
+       <div class="store-rating">
+    ★★★★☆
+    <span class="rating-score"
+          th:text="${store.averageRating}"></span>
+  </div>
+
+  <span class="category-badge"
+        th:text="${store.categoryName}"></span>
+</div>
+  </a>
+</div>
+  </section>
+
+
+<section class="top-section">
+<h2 class="section-title">新着のお店</h2>
+<div class="store-grid">
+  <a th:each="store : ${newStores}"
+     th:href="@{/stores/{id}(id=${store.id})}"
+     class="store-card top-store-card">
+     
+     <img th:if="${store.imageName != null}"
+     th:src="@{/storage/{file}(file=${store.imageName})}">
+
+    <img th:unless="${store.imageName != null}"
+     th:src="@{/images/no-image.png}">
+     <!--
+    <img th:unless="${store.imageName != null}"
+     th:src="@{/images/no-image.png}"
+     alt="NO IMAGE">
+     -->
+    <div class="store-info">
+      <h3 th:text="${store.name}"></h3>
+      <span th:text="${store.categoryName}"></span>
+    </div>
+  </a>
+</div>
+</section>
+
+
+  <section class="top-section">
+  <h3 class="section-title">カテゴリから探す</h3>
 
   <div class="category-tags">
     <a th:href="@{/stores(category='居酒屋')}" class="category-tag">居酒屋</a>
@@ -121,6 +191,35 @@
     <a th:href="@{/stores(category='スイーツ')}" class="category-tag">スイーツ</a>
   </div>
 </section>
+
+<section class="top-section">
+  <h2 class="section-title">こだわり条件から探す</h2>
+
+  <div class="feature-grid">
+
+    <a th:href="@{/stores?feature=private_room}" class="feature-card">
+     <img src="/images/features/private-room.jpg" alt="個室ありの店舗">
+      <span>個室あり</span>
+    </a>
+
+    <a th:href="@{/stores?feature=all_you_can_drink}" class="feature-card">
+      <img src="/images/features/drink.jpg" alt="飲み放題のある店舗">
+      <span>飲み放題</span>
+    </a>
+
+    <a th:href="@{/stores?feature=takeout}" class="feature-card">
+      <img src="/images/features/takeout.jpg" alt="テイクアウト可能な店舗">
+      <span>テイクアウト</span>
+    </a>
+
+    <a th:href="@{/stores?feature=late_night}" class="feature-card">
+      <img src="/images/features/night.jpg" alt="深夜営業している店舗">
+      <span>深夜営業</span>
+    </a>
+
+  </div>
+</section>
+
 
 </main>
 

@@ -123,17 +123,19 @@ main {
 }
 
 /* ===============================
-   カテゴリ（トップ用・タグ）
+   カテゴリ、新着、評価高い、ジャンル分け（トップ用・タグ）
 ================================ */
-.category-section {
-  margin-top: 60px;
+.top-section {
+  margin-bottom: 40px;
 }
 
-.category-title {
-  font-size: 22px;
+.section-title {
+  font-size: 18px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
+
+
 
 .category-tags {
   display: flex;
@@ -150,6 +152,43 @@ main {
   text-decoration: none;
   color: #222;
   transition: all 0.2s ease;
+}
+
+/*こだわり条件での検索*/
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.feature-card {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.feature-card img {
+ width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.feature-card span {
+  display: block;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 /* hoverでキュッ＋色変え */
@@ -225,34 +264,52 @@ main {
   display: block;
 }
 
-/* 店舗カード */
+/* 共通カード */
 .store-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
   border-radius: 12px;
   overflow: hidden;
-
-  padding: 16px;
-
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+
 }
 
 /* hover */
 .store-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
 }
 
-/*画像*/
-.store-image img {
-	width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 12px;
+/* トップページ用カード */
+.top-store-card {
+  padding: 0;
 }
+
+.top-store-card .store-image {
+  height: 120px;
+}
+
+.top-store-card .store-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 一覧ページ用カード */
+.list-store-card {
+  padding: 16px;
+}
+
+.list-store-card .store-image {
+  height: 140px;
+}
+
+.list-store-card .store-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 
 /*中身*/
 .store-body {
@@ -265,13 +322,17 @@ main {
 	margin-bottom: 6px;
 }
 
-/*評価*/
+/*評価 新着のお店*/
 .store-rating {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	font-size: 14px;
-	color: #f5a623;
+  font-size: 13px;
+  color: #f5a623; /* 星の色 */
+  margin-bottom: 4px;
+}
+
+.rating-score {
+  color: #333;
+  font-size: 12px;
+  margin-left: 4px;
 }
 
 .store-favorite {

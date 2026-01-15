@@ -1,5 +1,7 @@
 package com.example.nagoyamesi.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,5 +44,10 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
         Integer price,
         Pageable pageable
     );
+    
+    //評価高いもの６件//
+    List<Store> findTop6ByOrderByAverageRatingDesc();
+  //新着６件//
+    List<Store> findTop6ByOrderByCreatedAtDesc();
 }
 
