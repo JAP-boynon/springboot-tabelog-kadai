@@ -11,7 +11,8 @@ import com.example.nagoyamesi.entity.Store;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    List<Review> findByStore(Store store);
+   
+    List<Review> findByStoreOrderByCreatedAtDesc(Store store);
 
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.store = :store")
     Double findAverageRatingByStore(@Param("store") Store store);

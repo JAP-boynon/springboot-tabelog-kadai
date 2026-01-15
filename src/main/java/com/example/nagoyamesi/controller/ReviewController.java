@@ -2,6 +2,7 @@ package com.example.nagoyamesi.controller;
 
 import java.security.Principal;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,7 +59,7 @@ public class ReviewController {
 	        Review review = reviewService.findById(id);
 	     // ログインユーザーとレビュー投稿者が一致するか
 	        if (!review.getUser().getEmail().equals(principal.getName())) {
-	            throw new RuntimeException("他人のレビューは削除できません");
+	        	throw new AccessDeniedException("このレビューは削除できません");
 	        }
 
 	        Integer storeId = review.getStore().getId();

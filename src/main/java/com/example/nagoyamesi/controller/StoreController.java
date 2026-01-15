@@ -1,5 +1,7 @@
 package com.example.nagoyamesi.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,16 +13,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.nagoyamesi.entity.Review;
 import com.example.nagoyamesi.entity.Store;
 import com.example.nagoyamesi.repository.StoreRepository;
+import com.example.nagoyamesi.service.ReviewService;
 
 @Controller
 public class StoreController {
 
     private final StoreRepository storeRepository;
+    private final ReviewService reviewService;
 
-    public StoreController(StoreRepository storeRepository) {
+    public StoreController(StoreRepository storeRepository, ReviewService reviewService) {
         this.storeRepository = storeRepository;
+        this.reviewService = reviewService;
     }
 
     /**
@@ -149,10 +155,16 @@ public class StoreController {
      */
     @GetMapping("/stores/{id}")
     public String show(@PathVariable Integer id, Model model) {
+
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
 
+        // 👇 店舗に紐づくレビュー一覧を取得
+        List<Review> reviews = reviewService.findByStore(store);
+
         model.addAttribute("store", store);
+        model.addAttribute("reviews", reviews);
+
         return "stores/show";
     }
 }

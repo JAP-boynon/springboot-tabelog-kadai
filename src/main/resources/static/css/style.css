@@ -266,18 +266,30 @@ main {
 
 /* 共通カード */
 .store-card {
-  border-radius: 12px;
-  overflow: hidden;
   background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  text-decoration: none;
+  color: #333;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-
+}
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
 }
 
 /* hover */
 .store-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+/* 画像*/
+.store-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 /* トップページ用カード */
@@ -324,9 +336,38 @@ main {
 
 /*評価 新着のお店*/
 .store-rating {
-  font-size: 18px;
-  color: #f5a623; /* 星の色 */
-  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+ 
+}
+
+.stars {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.star-full {
+  color: #f5b301; /* 金色 */
+}
+
+.star-empty {
+  color: #ddd;
+}
+
+.star-half {
+  position: relative;
+  display: inline-block;
+  color: #ddd;
+}
+
+.star-half::before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  width: 50%;
+  overflow: hidden;
+  color: #f5b301;
 }
 
 .rating-score {

@@ -138,17 +138,25 @@
 
                   <h5 th:text="${store.name}"></h5>
 
-                <div class="store-rating">
-             <span th:each="i : ${#numbers.sequence(1,5)}">
-            <span th:text="${i <= (store.averageRating ?: 0) ? '★' : '☆'}"></span>
-          </span>
-         <span class="rating-score" th:text="${store.averageRating}"></span>
-         </div>
-                
-                <!--⬇️消していいかも？span12件-->
-                 <span class="text-muted">(12件)</span>
-                 
-                </div>
+               <div class="store-rating">
+  <div class="stars"
+       th:with="
+         rating=${store.averageRating ?: 0},
+         full=${T(java.lang.Math).floor(rating)},
+         half=${rating - full >= 0.5}
+       ">
+
+    <span th:each="i : ${#numbers.sequence(1,5)}">
+      <span th:if="${i <= full}" class="star-full">★</span>
+      <span th:if="${i == full + 1 and half}" class="star-half">★</span>
+      <span th:if="${i > full + (half ? 1 : 0)}" class="star-empty">★</span>
+    </span>
+  </div>
+
+  <span class="rating-score"
+        th:text="${#numbers.formatDecimal(store.averageRating ?: 0, 1, 1)}">
+  </span>
+</div>
 
                 <span class="category-tag"
                  th:text="${store.categoryName}"></span>

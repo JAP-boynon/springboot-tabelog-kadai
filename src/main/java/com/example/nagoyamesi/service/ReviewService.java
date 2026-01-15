@@ -1,5 +1,7 @@
 package com.example.nagoyamesi.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +41,9 @@ public class ReviewService {
 	    public Review findById(Integer id) {
 	        return reviewRepository.findById(id)
 	                .orElseThrow(() -> new RuntimeException("レビューが見つかりません"));
+	    }
+	    public List<Review> findByStore(Store store) {
+	    	return reviewRepository.findByStoreOrderByCreatedAtDesc(store);
 	    }
 	}
 	    // レビュー削除（あとで使う）

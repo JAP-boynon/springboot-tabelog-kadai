@@ -27,13 +27,26 @@
 
 　　　　<h1 class="page-title mb-4" th:text="${store.name}"></h1>
 
-   <div class="store-rating">
-  <span th:each="i : ${#numbers.sequence(1,5)}">
-    <span th:text="${i <= (store.averageRating ?: 0) ? '★' : '☆'}"></span>
+  <div class="store-rating">
+  <div class="stars"
+       th:with="
+         rating=${store.averageRating ?: 0},
+         full=${T(java.lang.Math).floor(rating)},
+         half=${rating - full >= 0.5}
+       ">
+
+    <span th:each="i : ${#numbers.sequence(1,5)}">
+      <span th:if="${i <= full}" class="star-full">★</span>
+      <span th:if="${i == full + 1 and half}" class="star-half">★</span>
+      <span th:if="${i > full + (half ? 1 : 0)}" class="star-empty">★</span>
+    </span>
+  </div>
+
+  <span class="rating-score"
+        th:text="${#numbers.formatDecimal(store.averageRating ?: 0, 1, 1)}">
   </span>
-  <span class="rating-score" th:text="${store.averageRating}"></span>
 </div>
-    
+
 		<p>
 		<strong>カテゴリ：</strong>
 		<span th:text="${store.categoryName}">ラーメン</span>
@@ -77,9 +90,98 @@
 			<span th:text="${store.phoneNumber}">052-000-0000</span>
 		</p>
 		
-		<p>
-			<a th:href="@{/stores}">← 一覧に戻る</a>
-		</p>
+		<hr>
+
+<h2 class="mt-5">レビュー</h2>
+
+<div class="reviews">
+
+  <div th:each="review : ${reviews}" class="review-card mb-3">
+
+    <!-- ★表示（レビュー単体） -->
+    <div class="review-rating">
+      <span th:each="i : ${#numbers.sequence(1,5)}">
+        <span th:text="${i <= review.rating ? '★' : '☆'}"></span>
+      </span>
+    </div>
+
+    <!-- コメント -->
+    <p th:text="${review.comment}">コメント</p>
+
+    <!-- 投稿者 -->
+    <small class="text-muted"
+           th:text="${review.user.name}">ユーザー名</small>
+        <!-- 投稿日 -->
+           <small class="text-muted"
+       th:text="${#temporals.format(review.createdAt, 'yyyy/MM/dd')}">
+</small>
+
+    <!-- 👇 削除ボタン（自分のレビューだけ） -->
+    <form th:if="${review.user.email == #authentication.name}"
+          th:action="@{/reviews/delete/{id}(id=${review.id})}"
+          method="post"
+          class="mt-2">
+      <button type="submit"
+              class="btn btn-sm btn-danger"
+              onclick="return confirm('本当に削除しますか？')">
+        削除
+      </button>
+    </form>
+
+  </div>
+
+</div>
+<hr>
+
+<h3 class="mt-4">レビューを書く</h3>
+
+<form th:action="@{/reviews/create}"
+      method="post"
+      sec:authorize="isAuthenticated()">
+
+  <input type="hidden" name="storeId"
+         th:value="${store.id}">
+
+  <!-- ★評価 -->
+  <div class="mb-2">
+    <label>評価：</label>
+    <select name="rating" class="form-select w-auto">
+      <option th:each="i : ${#numbers.sequence(1,5)}"
+              th:value="${i}"
+              th:text="${i}">
+      </option>
+    </select>
+  </div>
+
+  <!-- コメント -->
+  <div class="mb-3">
+    <textarea name="comment"
+              class="form-control"
+              rows="3"
+              placeholder="コメントを書く"></textarea>
+  </div>
+
+  <button type="submit"
+          class="btn btn-primary">
+    投稿
+  </button>
+  
+</form>
+
+<!-- 未ログイン -->
+<p sec:authorize="!isAuthenticated()">
+  <a th:href="@{/login}">ログイン</a>するとレビューできます
+</p>
+		
+	<div class="mt-4">
+  <a th:href="@{/stores}" class="btn btn-outline-secondary btn-sm">
+    ← 一覧に戻る
+  </a>
+  <a th:href="@{/}" class="btn btn-outline-primary btn-sm ms-2">
+    トップへ
+  </a>
+</div>
+
 </main>
 <div th:replace="~{fragment :: footer}"></div>
 <div th:replace="~{fragment :: scripts}"></div>
