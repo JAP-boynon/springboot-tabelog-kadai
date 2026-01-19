@@ -476,6 +476,18 @@ main {
     opacity: 0.85;
 }
 
+/* 予約一覧：店舗名リンク */
+.reservation-store-link {
+  color: #d35400;        /* 赤オレンジ */
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.reservation-store-link:hover {
+  color: #e67e22;        /* 少し明るいオレンジ */
+  text-decoration: underline;
+}
+
 
 @media screen and (min-width: 1400px) {
   main {

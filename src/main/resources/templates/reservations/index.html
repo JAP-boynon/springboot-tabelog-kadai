@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>予約一覧</title>
+</head>
+
+<body>
+
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container pt-4 pb-5">
+
+    <!-- パンくず -->
+    <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a th:href="@{/}">ホーム</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                予約一覧
+            </li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4 text-center">予約一覧</h1>
+
+    <!-- 予約完了メッセージ -->
+    <div th:if="${param.reserved}" class="alert alert-info">
+        予約が完了しました。
+    </div>
+
+    <!-- 予約一覧テーブル -->
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>店舗名</th>
+            <th>予約日</th>
+            <th>予約時間</th>
+            <th>人数</th>
+            <th>予約日時</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="reservation : ${reservationPage.content}">
+            <td>
+                <a th:href="@{/stores/{id}(id=${reservation.store.id})}"
+                class="reservation-store-link"
+                   th:text="${reservation.store.name}">
+                </a>
+            </td>
+
+            <td th:text="${reservation.reservationDate}"></td>
+
+            <td th:text="${reservation.reservationTime}"></td>
+
+            <td th:text="${reservation.numberOfPeople + '名'}"></td>
+             <!--
+            <td th:text="${#temporals.format(reservation.createdAt, 'yyyy/MM/dd HH:mm')}"></td>
+            -->
+            <td th:text="${reservation.createdAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- ページネーション -->
+    <div th:if="${reservationPage.totalPages > 1}"
+         class="d-flex justify-content-center mt-4">
+
+        <ul class="pagination">
+
+            <!-- 前へ -->
+            <li class="page-item">
+                <span th:if="${reservationPage.first}"
+                      class="page-link disabled">前</span>
+
+                <a th:unless="${reservationPage.first}"
+                   th:href="@{/reservations(page=${reservationPage.number - 1})}"
+                   class="page-link">前</a>
+            </li>
+
+            <!-- ページ番号 -->
+            <li th:each="i : ${#numbers.sequence(0, reservationPage.totalPages - 1)}"
+                class="page-item">
+
+                <span th:if="${i == reservationPage.number}"
+                      class="page-link active"
+                      th:text="${i + 1}"></span>
+
+                <a th:unless="${i == reservationPage.number}"
+                   th:href="@{/reservations(page=${i})}"
+                   class="page-link"
+                   th:text="${i + 1}"></a>
+            </li>
+
+            <!-- 次へ -->
+            <li class="page-item">
+                <span th:if="${reservationPage.last}"
+                      class="page-link disabled">次</span>
+
+                <a th:unless="${reservationPage.last}"
+                   th:href="@{/reservations(page=${reservationPage.number + 1})}"
+                   class="page-link">次</a>
+            </li>
+
+        </ul>
+    </div>
+
+</main>
+
+<div th:replace="~{fragment :: footer}"></div>
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

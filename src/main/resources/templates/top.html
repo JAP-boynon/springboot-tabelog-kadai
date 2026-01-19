@@ -70,43 +70,15 @@
   </div>
   <h2>NAGOYAのB級グルメを探す</h2>
 
-  <form th:action="@{/stores}" method="get" class="search-form">
-    <input type="text" name="keyword" placeholder="店舗名">
+<form th:action="@{/stores}" method="get" class="search-form">
+  <input type="text" name="keyword" placeholder="店舗名で検索">
 
-    <div class="categories">
-      <label class="category">
-        <input type="radio" name="category" value=""
-        th:checked="${category == null || category == ''}">
-        <span>すべて</span>
-      </label>
+  <!-- カテゴリは一旦使わないので hidden -->
+  <input type="hidden" name="category" value="">
+  <span class="badge bg-secondary">すべてのカテゴリ</span>
 
-      <label class="category">
-      <input type="radio" name="category" value="ラーメン"
-       th:checked="${category == 'ラーメン'}">
-        <span>ラーメン</span>
-      </label>
-
-      <label class="category">
-       <input type="radio" name="category" value="焼肉"
-       th:checked="${category == '焼肉'}">
-        <span>焼肉</span>
-      </label>
-
-      <label class="category">
-        <input type="radio" name="category" value="居酒屋"
-        th:checked="${category == '居酒屋'}">
-        <span>居酒屋</span>
-      </label>
-
-      <label class="category">
-        <input type="radio" name="category" value="スイーツ"
-        th:checked="${category == 'スイーツ'}">
-        <span>スイーツ</span>
-      </label>
-    </div>
-
-    <button type="submit" class="search-btn">検索</button>
-  </form>
+  <button type="submit" class="search-btn">検索</button>
+</form>
   
   <section class="top-section">
   <h2 class="section-title">評価が高いお店</h2>
@@ -199,7 +171,7 @@
 </section>
 
 <section class="top-section">
-  <h2 class="section-title">こだわり条件から探す</h2>
+  <h2 class="section-title">条件を指定して探す</h2>
 
   <div class="feature-grid">
 
