@@ -1,6 +1,7 @@
 package com.example.nagoyamesi.entity;
 
 import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,12 @@ public class Store {
 	
 	@Column(name = "average_rating")
 	private Double averageRating;
+	
+	@Column(name = "opening_time")
+	private LocalTime openingTime;
+
+	@Column(name = "closing_time")
+	private LocalTime closingTime;
 	
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
 	private List<Review> reviews = new ArrayList<>();

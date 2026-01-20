@@ -1,7 +1,7 @@
 package com.example.nagoyamesi.entity;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import jakarta.persistence.Column;
@@ -48,9 +48,9 @@ public class Reservation {
 
     // 作成日時
     @Column(name = "created_at", insertable = false, updatable = false)
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     // 更新日時
     @Column(name = "updated_at", insertable = false, updatable = false)
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 }

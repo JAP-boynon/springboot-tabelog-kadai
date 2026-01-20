@@ -31,6 +31,10 @@
     <div th:if="${param.reserved}" class="alert alert-info">
         予約が完了しました。
     </div>
+    
+    <div th:if="${param.canceled}" class="alert alert-warning">
+    予約をキャンセルしました。
+   </div>
 
     <!-- 予約一覧テーブル -->
     <table class="table table-hover">
@@ -41,6 +45,10 @@
             <th>予約時間</th>
             <th>人数</th>
             <th>予約日時</th>
+            <th>操作</th>
+            
+       
+        
         </tr>
         </thead>
 
@@ -58,10 +66,22 @@
             <td th:text="${reservation.reservationTime}"></td>
 
             <td th:text="${reservation.numberOfPeople + '名'}"></td>
-             <!--
+             
             <td th:text="${#temporals.format(reservation.createdAt, 'yyyy/MM/dd HH:mm')}"></td>
-            -->
-            <td th:text="${reservation.createdAt}"></td>
+            
+                <!-- ★操作列（ここ！） -->
+     <td>
+    <form th:action="@{/reservations/{id}/delete(id=${reservation.id})}"
+          method="post"
+          th:data-store-name="${reservation.store.name}"
+          onsubmit="return confirmCancel(this);">
+
+        <button type="submit" class="btn btn-danger btn-sm">
+            キャンセル
+        </button>
+    </form>
+</td>
+
         </tr>
         </tbody>
     </table>
@@ -113,6 +133,13 @@
 
 <div th:replace="~{fragment :: footer}"></div>
 <div th:replace="~{fragment :: scripts}"></div>
+
+<script>
+    function confirmCancel(form) {
+        const storeName = form.dataset.storeName;
+        return confirm('「' + storeName + '」の予約をキャンセルしますか？');
+    }
+</script>
 
 </body>
 </html>

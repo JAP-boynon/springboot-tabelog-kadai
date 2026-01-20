@@ -7,15 +7,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.nagoyamesi.entity.Review;
 import com.example.nagoyamesi.entity.Store;
+import com.example.nagoyamesi.entity.User;
+import com.example.nagoyamesi.form.ReservationInputForm;
 import com.example.nagoyamesi.repository.StoreRepository;
+import com.example.nagoyamesi.security.UserDetailslmpl;
+import com.example.nagoyamesi.service.ReservationService;
 import com.example.nagoyamesi.service.ReviewService;
 
 @Controller
@@ -23,10 +32,15 @@ public class StoreController {
 
     private final StoreRepository storeRepository;
     private final ReviewService reviewService;
+    private final ReservationService reservationService;
+   
 
-    public StoreController(StoreRepository storeRepository, ReviewService reviewService) {
+    public StoreController(StoreRepository storeRepository, ReviewService reviewService,ReservationService reservationService
+    	    ) {
         this.storeRepository = storeRepository;
         this.reviewService = reviewService;
+        this.reservationService = reservationService;
+        
     }
 
     /**
@@ -164,7 +178,49 @@ public class StoreController {
 
         model.addAttribute("store", store);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("reservationInputForm", new ReservationInputForm());
+        model.addAttribute("reservationTimes",
+                reservationService.getReservationTimes(store));
 
         return "stores/show";
     }
+    
+    @PostMapping("/stores/{id}/reservations")
+    public String create(
+            @PathVariable Integer id,
+            @Validated @ModelAttribute ReservationInputForm reservationInputForm,
+            BindingResult bindingResult,
+            @AuthenticationPrincipal UserDetailslmpl userDetailsImpl,
+            Model model
+    ) {
+
+        // バリデーションエラーがある場合
+        if (bindingResult.hasErrors()) {
+
+            Store store = storeRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+
+            List<Review> reviews = reviewService.findByStore(store);
+
+            model.addAttribute("store", store);
+            model.addAttribute("reviews", reviews);
+            model.addAttribute("reservationTimes",
+                    reservationService.getReservationTimes(store));
+           //保存しない
+            return "stores/show";
+        }
+
+        // ② エラーがなかった場合
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+
+        User user = userDetailsImpl.getUser();
+
+        //  予約を保存
+        reservationService.create(store, user, reservationInputForm);
+
+        //  一覧へ
+        return "redirect:/reservations?reserved";
+    }
+   
 }

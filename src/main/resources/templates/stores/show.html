@@ -3,6 +3,9 @@
 <head>
        <div th:replace="~{fragment :: meta}"></div>
     <div th:replace="~{fragment :: styles}"></div>
+    <!-- Flatpickr -->
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <title th:text="${store.name}">店舗詳細</title>
 </head>
 
@@ -117,6 +120,72 @@
 		</p>
 		
 		<hr>
+		
+		<div sec:authorize="isAnonymous()" class="mt-4">
+    <div class="card">
+        <div class="card-body text-center">
+            <p class="card-text">
+                予約するには
+                <a th:href="@{/login}">ログイン</a>
+                が必要です。
+            </p>
+            <button class="btn btn-danger w-100" disabled>
+                予約する
+            </button>
+        </div>
+    </div>
+</div>
+
+<div sec:authorize="hasRole('ROLE_GENERAL')">
+
+		<h3 class="mt-5 mb-3">予約する</h3>
+
+<form th:action="@{/stores/{id}/reservations(id=${store.id})}"
+      th:object="${reservationInputForm}"
+      method="post">
+
+    <!-- 予約日 -->
+    <div class="mb-3">
+        <label class="form-label">予約日</label>
+        <input type="text"
+               id="reservationDate"
+               th:field="*{reservationDate}"
+               class="form-control"
+               placeholder="日付を選択">
+        <div class="text-danger"
+             th:errors="*{reservationDate}"></div>
+    </div>
+
+    <!-- 予約時間 -->
+    <div class="mb-3">
+        <label class="form-label">予約時間</label>
+        <select th:field="*{reservationTime}" class="form-select">
+            <option value="">時間を選択</option>
+            <option th:each="time : ${reservationTimes}"
+                    th:value="${time}"
+                    th:text="${time}">
+            </option>
+        </select>
+        <div class="text-danger"
+             th:errors="*{reservationTime}"></div>
+    </div>
+
+    <!-- 人数 -->
+    <div class="mb-4">
+        <label class="form-label">人数</label>
+        <input type="number"
+               th:field="*{numberOfPeople}"
+               class="form-control"
+               min="1"
+               max="30">
+        <div class="text-danger"
+             th:errors="*{numberOfPeople}"></div>
+    </div>
+
+    <button type="submit" class="btn btn-danger">
+        予約する
+    </button>
+</form>
 
 <h2 class="mt-5">レビュー</h2>
 
@@ -211,5 +280,10 @@
 </main>
 <div th:replace="~{fragment :: footer}"></div>
 <div th:replace="~{fragment :: scripts}"></div>
+
+<!-- Flatpickr -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+        <script th:src="@{/js/flatpickr-reservation.js}"></script>  
 </body>
 </html>
