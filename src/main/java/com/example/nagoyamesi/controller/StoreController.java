@@ -185,41 +185,47 @@ public class StoreController {
         return "stores/show";
     }
     
-    @PostMapping("/stores/{id}/reservations")
-    public String create(
+    @PostMapping("/stores/{id}/reservations/confirm")
+    public String confirm(
             @PathVariable Integer id,
             @Validated @ModelAttribute ReservationInputForm reservationInputForm,
             BindingResult bindingResult,
-            @AuthenticationPrincipal UserDetailslmpl userDetailsImpl,
+            @AuthenticationPrincipal UserDetailslmpl userDetailslmpl,
             Model model
     ) {
-
-        // バリデーションエラーがある場合
-        if (bindingResult.hasErrors()) {
-
-            Store store = storeRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
-
-            List<Review> reviews = reviewService.findByStore(store);
-
-            model.addAttribute("store", store);
-            model.addAttribute("reviews", reviews);
-            model.addAttribute("reservationTimes",
-                    reservationService.getReservationTimes(store));
-           //保存しない
-            return "stores/show";
-        }
-
-        // ② エラーがなかった場合
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
 
-        User user = userDetailsImpl.getUser();
+        // バリデーションエラー → 店舗詳細に戻す
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("store", store);
+            model.addAttribute("reviews", reviewService.findByStore(store));
+            model.addAttribute("reservationTimes",
+                    reservationService.getReservationTimes(store));
+            return "stores/show";
+        }
 
-        //  予約を保存
+        model.addAttribute("store", store);
+        model.addAttribute("reservationInputForm", reservationInputForm);
+
+        return "reservations/confirm";
+    }
+    
+    @PostMapping("/stores/{id}/reservations")
+    public String create(
+            @PathVariable Integer id,
+            @ModelAttribute ReservationInputForm reservationInputForm,
+            @AuthenticationPrincipal UserDetailslmpl userDetailslmpl
+    ) {
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+
+        User user = userDetailslmpl.getUser();
+
+        // 予約を保存
         reservationService.create(store, user, reservationInputForm);
 
-        //  一覧へ
+        // 一覧へ
         return "redirect:/reservations?reserved";
     }
    

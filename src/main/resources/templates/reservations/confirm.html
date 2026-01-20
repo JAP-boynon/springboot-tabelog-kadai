@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>予約内容確認</title>
+</head>
+<body>
+
+<h2>予約内容の確認</h2>
+
+<p>店舗名：<span th:text="${store.name}"></span></p>
+<p>予約日：<span th:text="${reservationInputForm.reservationDate}"></span></p>
+<p>予約時間：<span th:text="${reservationInputForm.reservationTime}"></span></p>
+<p>人数：<span th:text="${reservationInputForm.numberOfPeople} + '名'"></span></p>
+
+<form th:action="@{/stores/{id}/reservations(id=${store.id})}"
+      method="post"
+      th:object="${reservationInputForm}">
+
+    <!-- hiddenで引き継ぐ -->
+    <input type="hidden" th:field="*{reservationDate}">
+    <input type="hidden" th:field="*{reservationTime}">
+    <input type="hidden" th:field="*{numberOfPeople}">
+
+    <button type="submit">この内容で予約する</button>
+</form>
+
+<form th:action="@{/stores/{id}(id=${store.id})}" method="get">
+    <button type="submit">戻る</button>
+</form>
+
+</body>
+</html>

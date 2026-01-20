@@ -139,10 +139,18 @@
 <div sec:authorize="hasRole('ROLE_GENERAL')">
 
 		<h3 class="mt-5 mb-3">予約する</h3>
+		
+		<form th:action="@{/stores/{id}/reservations/confirm(id=${store.id})}"
+      method="post"
+      th:object="${reservationInputForm}">
 
+<!--
 <form th:action="@{/stores/{id}/reservations(id=${store.id})}"
-      th:object="${reservationInputForm}"
-      method="post">
+       method="post"
+      th:object="${reservationInputForm}">
+      -->
+      
+     
 
     <!-- 予約日 -->
     <div class="mb-3">
