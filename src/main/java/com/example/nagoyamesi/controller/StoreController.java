@@ -1,5 +1,7 @@
 package com.example.nagoyamesi.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -26,6 +28,12 @@ import com.example.nagoyamesi.repository.StoreRepository;
 import com.example.nagoyamesi.security.UserDetailslmpl;
 import com.example.nagoyamesi.service.ReservationService;
 import com.example.nagoyamesi.service.ReviewService;
+import com.example.nagoyamesi.service.StripeService;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
+import com.stripe.model.checkout.Session;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class StoreController {
@@ -33,13 +41,16 @@ public class StoreController {
     private final StoreRepository storeRepository;
     private final ReviewService reviewService;
     private final ReservationService reservationService;
+    private final StripeService stripeService;
    
 
-    public StoreController(StoreRepository storeRepository, ReviewService reviewService,ReservationService reservationService
+    public StoreController(StoreRepository storeRepository, ReviewService reviewService,ReservationService reservationService,StripeService stripeService
     	    ) {
         this.storeRepository = storeRepository;
         this.reviewService = reviewService;
         this.reservationService = reservationService;
+        this.stripeService = stripeService;
+        
         
     }
 
@@ -184,13 +195,14 @@ public class StoreController {
 
         return "stores/show";
     }
-    
+    //予約内容確認
     @PostMapping("/stores/{id}/reservations/confirm")
     public String confirm(
             @PathVariable Integer id,
             @Validated @ModelAttribute ReservationInputForm reservationInputForm,
             BindingResult bindingResult,
             @AuthenticationPrincipal UserDetailslmpl userDetailslmpl,
+            HttpServletRequest httpServletRequest,
             Model model
     ) {
         Store store = storeRepository.findById(id)
@@ -205,27 +217,66 @@ public class StoreController {
             return "stores/show";
         }
 
+        // ② ログインユーザー取得
+        User user = userDetailslmpl.getUser();
+
+        // ③ Stripe Checkout セッション作成
+        String sessionId = stripeService.createStripeSession(
+                store,
+                reservationInputForm,
+                httpServletRequest
+        );
+
+        // ④ confirm.html に渡す
         model.addAttribute("store", store);
         model.addAttribute("reservationInputForm", reservationInputForm);
+        model.addAttribute("sessionId", sessionId);
 
         return "reservations/confirm";
     }
     
-    @PostMapping("/stores/{id}/reservations")
-    public String create(
+   // @PostMapping("/stores/{id}/reservations")
+   // public String create(
+         //   @PathVariable Integer id,
+          //  @ModelAttribute ReservationInputForm reservationInputForm,
+          //  @AuthenticationPrincipal UserDetailslmpl userDetailslmpl
+  //  ) {
+    //    Store store = storeRepository.findById(id)
+     //           .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+
+     //   User user = userDetailslmpl.getUser();
+
+        // 予約を保存
+       // reservationService.create(store, user, reservationInputForm);
+
+        // 一覧へ
+      //  return "redirect:/reservations?reserved";
+    //}
+    
+    /**
+     * Stripe 決済完了後
+     */
+    @GetMapping("/stores/{id}/reservations")
+    public String success(
             @PathVariable Integer id,
-            @ModelAttribute ReservationInputForm reservationInputForm,
+            @RequestParam("session_id") String sessionId,
             @AuthenticationPrincipal UserDetailslmpl userDetailslmpl
-    ) {
+    ) throws StripeException {
+
+        User user = userDetailslmpl.getUser();
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
 
-        User user = userDetailslmpl.getUser();
+        Session session = Session.retrieve(sessionId);
+        PaymentIntent paymentIntent = PaymentIntent.retrieve(session.getPaymentIntent());
 
-        // 予約を保存
-        reservationService.create(store, user, reservationInputForm);
+        ReservationInputForm form = new ReservationInputForm();
+        form.setReservationDate(LocalDate.parse(paymentIntent.getMetadata().get("reservationDate")));
+        form.setReservationTime(LocalTime.parse(paymentIntent.getMetadata().get("reservationTime")));
+        form.setNumberOfPeople(Integer.parseInt(paymentIntent.getMetadata().get("numberOfPeople")));
 
-        // 一覧へ
+        reservationService.create(store, user, form);
+
         return "redirect:/reservations?reserved";
     }
    

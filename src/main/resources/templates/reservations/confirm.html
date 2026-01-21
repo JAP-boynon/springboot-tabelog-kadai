@@ -12,21 +12,34 @@
 <p>予約時間：<span th:text="${reservationInputForm.reservationTime}"></span></p>
 <p>人数：<span th:text="${reservationInputForm.numberOfPeople} + '名'"></span></p>
 
-<form th:action="@{/stores/{id}/reservations(id=${store.id})}"
-      method="post"
-      th:object="${reservationInputForm}">
-
-    <!-- hiddenで引き継ぐ -->
-    <input type="hidden" th:field="*{reservationDate}">
-    <input type="hidden" th:field="*{reservationTime}">
-    <input type="hidden" th:field="*{numberOfPeople}">
-
-    <button type="submit">この内容で予約する</button>
+<!-- 値保持用（submitしない） -->
+<form>
+    <input type="hidden" th:value="${reservationInputForm.reservationDate}">
+    <input type="hidden" th:value="${reservationInputForm.reservationTime}">
+    <input type="hidden" th:value="${reservationInputForm.numberOfPeople}">
 </form>
+
+<!-- Stripeに飛ばすボタン -->
+<button
+    id="paymentButton"
+    class="btn btn-danger w-100">
+    決済する
+</button>
 
 <form th:action="@{/stores/{id}(id=${store.id})}" method="get">
     <button type="submit">戻る</button>
 </form>
+
+<!-- Stripe公式JS -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- sessionId を JS に渡す -->
+<script th:inline="javascript">
+    const sessionId = /*[[${sessionId}]]*/ "";
+</script>
+
+<!-- 自作Stripe処理 -->
+<script th:src="@{/js/stripe.js}"></script>
 
 </body>
 </html>
