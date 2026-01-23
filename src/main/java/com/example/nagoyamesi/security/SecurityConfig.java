@@ -28,7 +28,8 @@ public class SecurityConfig {
                     "/css/**",
                     "/images/**",
                     "/js/**",
-                    "/storage/**"
+                    "/storage/**",
+                    "/stripe/webhook" 
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -53,7 +54,10 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutSuccessUrl("/?logout")
                 .permitAll()
-            );
+            		 )
+            .csrf(csrf -> csrf
+                    .ignoringRequestMatchers("/stripe/webhook")
+                    );
 
         return http.build();
     }
