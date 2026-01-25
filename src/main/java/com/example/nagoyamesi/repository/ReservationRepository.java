@@ -18,4 +18,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     // 店舗・管理者用（今は未使用）
     List<Reservation> findByStore(Store store);
+    
+    // ★ Stripe Webhook 重複防止
+    boolean existsByStripeSessionId(String stripeSessionId);
+
 }

@@ -223,6 +223,7 @@ public class StoreController {
         // ③ Stripe Checkout セッション作成
         String sessionId = stripeService.createStripeSession(
                 store,
+                user,
                 reservationInputForm,
                 httpServletRequest
         );
@@ -275,7 +276,7 @@ public class StoreController {
         form.setReservationTime(LocalTime.parse(paymentIntent.getMetadata().get("reservationTime")));
         form.setNumberOfPeople(Integer.parseInt(paymentIntent.getMetadata().get("numberOfPeople")));
 
-        reservationService.create(store, user, form);
+       // reservationService.create(store, user, form);
 
         return "redirect:/reservations?reserved";
     }

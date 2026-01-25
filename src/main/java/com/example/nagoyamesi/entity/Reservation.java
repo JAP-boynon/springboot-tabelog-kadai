@@ -14,6 +14,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+
+
 @Entity
 @Table(name = "reservations")
 @Data
@@ -53,4 +55,7 @@ public class Reservation {
     // 更新日時
     @Column(name = "updated_at", insertable = false, updatable = false)
     private LocalDateTime updatedAt;
+    
+    @Column(name = "stripe_session_id", unique = true)
+    private String stripeSessionId;
 }

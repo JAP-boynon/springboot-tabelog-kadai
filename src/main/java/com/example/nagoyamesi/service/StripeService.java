@@ -102,7 +102,7 @@ public class StripeService {
 
                 Map<String, String> metadata =
                         session.getPaymentIntentObject().getMetadata();
-
+                metadata.put("stripeSessionId", session.getId());
                 reservationService.create(metadata);
 
                 System.out.println("予約一覧ページの登録処理が成功しました。");

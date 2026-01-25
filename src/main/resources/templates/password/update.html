@@ -1,0 +1,61 @@
+<!--
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>パスワード再設定</title>
+  <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+<body>
+
+<div th:replace="fragment :: header"></div>
+
+<main class="auth-container">
+  <h1>新しいパスワードを設定</h1>
+
+  <form th:action="@{/password/reset/update/{token}(token=${token})}" method="post">
+    <input type="password"
+           name="password"
+           placeholder="新しいパスワード"
+           required>
+    <button type="submit">パスワードを更新</button>
+  </form>
+</main>
+
+<div th:replace="fragment :: footer"></div>
+
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>新しいパスワードを設定</title>
+</head>
+
+<body>
+    <!-- ヘッダー -->
+    <div th:replace="~{fragment :: header}"></div>
+
+    <main class="auth-container">
+        <h1>新しいパスワードを設定</h1>
+
+        <p th:if="${error}" th:text="${error}" class="auth-message error"></p>
+
+       <form th:action="@{/password/reset/update/{token}(token=${token})}" method="post">
+    <input type="password"
+           name="password"
+           placeholder="新しいパスワード"
+           required>
+    <button type="submit">パスワードを更新</button>
+  </form>
+    </main>
+    <!-- フッター -->
+    <div th:replace="~{fragment :: footer}"></div>
+
+    <!-- scripts -->
+    <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

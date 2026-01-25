@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.example.nagoyamesi.entity.Reservation;
 import com.example.nagoyamesi.entity.Store;
 import com.example.nagoyamesi.entity.User;
-import com.example.nagoyamesi.form.ReservationInputForm;
 import com.example.nagoyamesi.repository.ReservationRepository;
 import com.example.nagoyamesi.repository.StoreRepository;
 import com.example.nagoyamesi.repository.UserRepository;
@@ -33,6 +32,14 @@ public class ReservationService {
     }
     
     public void create(Map<String, String> metadata) {
+    	
+    	   String stripeSessionId = metadata.get("stripeSessionId");
+
+    	    // ★★★ 重複防止★★★
+    	    if (reservationRepository.existsByStripeSessionId(stripeSessionId)) {
+    	        return;
+    	    }
+
 
         Integer storeId = Integer.valueOf(metadata.get("storeId"));
         Integer userId = Integer.valueOf(metadata.get("userId"));
@@ -58,6 +65,7 @@ public class ReservationService {
         reservation.setReservationDate(reservationDate);
         reservation.setReservationTime(reservationTime);
         reservation.setNumberOfPeople(numberOfPeople);
+        reservation.setStripeSessionId(stripeSessionId);
 
         reservationRepository.save(reservation);
     }
@@ -68,6 +76,11 @@ public class ReservationService {
 
         LocalTime start = store.getOpeningTime();
         LocalTime end   = store.getClosingTime();
+        
+        //追加した
+        if (start == null || end == null) {
+            return reservationTimes;
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -80,17 +93,17 @@ public class ReservationService {
     }
 
 
-    public void create(Store store, User user, ReservationInputForm form) {
-        Reservation reservation = new Reservation();
+   // public void create(Store store, User user, ReservationInputForm form) {
+     //   Reservation reservation = new Reservation();
 
-        reservation.setStore(store);
-        reservation.setUser(user);
-        reservation.setReservationDate(form.getReservationDate());
-        reservation.setReservationTime(form.getReservationTime());
-        reservation.setNumberOfPeople(form.getNumberOfPeople());
+      //  reservation.setStore(store);
+     //   reservation.setUser(user);
+      //  reservation.setReservationDate(form.getReservationDate());
+       // reservation.setReservationTime(form.getReservationTime());
+        //reservation.setNumberOfPeople(form.getNumberOfPeople());
 
-        reservationRepository.save(reservation);
-    }
+      //  reservationRepository.save(reservation);
+   // }
 }
 
 

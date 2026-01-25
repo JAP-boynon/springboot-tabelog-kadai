@@ -7,68 +7,73 @@ body {
 }
 
 main {
-	max-width:960px;
+	max-width: 960px;
 	margin: 0 auto;
 	padding: 40px 20px;
 }
 
 .header {
-  padding: 24px 32px;   /* ← 縦余白を増やす */
-  }
+	padding: 24px 32px;
+	/* ← 縦余白を増やす */
+}
+
 /* ===============================
    トップ スライダー
 ================================ */
 /* トップ画像 */
 .top-image {
-  width: 100%;
-  height: 420px;        /* ← 高さを増やす */
-  object-fit: cover;
-  border-radius: 0;     /* ← 角丸を消す */
+	width: 100%;
+	height: 420px;
+	/* ← 高さを増やす */
+	object-fit: cover;
+	border-radius: 0;
+	/* ← 角丸を消す */
 }
 
 
 
 .hero-lead {
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	margin-bottom: 6px;
 }
 
 .hero-sub {
-  font-size: 13px;
-  color: #666;
-  letter-spacing: 0.05em;
+	font-size: 13px;
+	color: #666;
+	letter-spacing: 0.05em;
 }
 
 .hero {
-  position: relative;
+	position: relative;
 }
+
 .hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.35);
 }
 
 .hero-text {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-  color: #fff;
+	position: absolute;
+	bottom: 40px;
+	left: 40px;
+	color: #fff;
 }
 
 .hero-text h2 {
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  color: #fff;
+	font-size: 30px;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	color: #fff;
 }
 
 .hero-text p {
-  font-size: 14px;
-  opacity: 0.9;
-  color: #eee;
+	font-size: 14px;
+	opacity: 0.9;
+	color: #eee;
 }
 
 /* カテゴリ全体 */
@@ -94,17 +99,17 @@ main {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
-	
+
 	padding: 8px 18px;
 	border-radius: 999px;
-	
+
 	background-color: #f7f7f7;
 	border: 1px solid #000;
 	color: #000;
-	
+
 	font-size: 14px;
 	line-height: 1;
-	
+
 	white-space: nowrap;
 	transition: all 0.2s ease;
 }
@@ -116,7 +121,7 @@ main {
 }
 
 /* 選択中 */
-.category input:checked + span {
+.category input:checked+span {
 	background-color: #222;
 	color: #fff;
 	border-color: #222;
@@ -126,77 +131,77 @@ main {
    カテゴリ、新着、評価高い、ジャンル分け（トップ用・タグ）
 ================================ */
 .top-section {
-  margin-bottom: 40px;
+	margin-bottom: 40px;
 }
 
 .section-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 12px;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 12px;
 }
 
 
 
 .category-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
 }
 
 .category-tag {
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: 1px solid #222;
-  background-color: #fff;
-  font-size: 14px;
-  text-decoration: none;
-  color: #222;
-  transition: all 0.2s ease;
+	padding: 8px 16px;
+	border-radius: 999px;
+	border: 1px solid #222;
+	background-color: #fff;
+	font-size: 14px;
+	text-decoration: none;
+	color: #222;
+	transition: all 0.2s ease;
 }
 
 /*こだわり条件での検索*/
 .feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 16px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+	gap: 16px;
 }
 
 .feature-card {
-  display: block;
-  border-radius: 12px;
-  overflow: hidden;
-  text-align: center;
-  text-decoration: none;
-  color: #333;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+	display: block;
+	border-radius: 12px;
+	overflow: hidden;
+	text-align: center;
+	text-decoration: none;
+	color: #333;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+	transform: translateY(-4px);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .feature-card img {
- width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: 12px;
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: 12px;
 }
 
 .feature-card span {
-  display: block;
-  padding: 8px;
-  font-size: 13px;
-  font-weight: bold;
+	display: block;
+	padding: 8px;
+	font-size: 13px;
+	font-weight: bold;
 }
 
 /* hoverでキュッ＋色変え */
 .category-tag:hover {
-  background-color: #222;
-  color: #fff;
-  transform: scale(0.95);
-  }
+	background-color: #222;
+	color: #fff;
+	transform: scale(0.95);
+}
 
 /*　検索ファーム整える */
 .search-form {
@@ -217,24 +222,25 @@ main {
 	padding: 10px 26px;
 	font-size: 14px;
 	font-weight: bold;
-	
+
 	border-radius: 20px;
 	border: none;
-	
+
 	background-color: #bfbfbf;
 	border: 1px solid #000;
 	color: #000;
-	
+
 	cursor: pointer;
 	transition: background-color 0.2s ease;
 }
+
 /* ホバー時 */
 .search-btn:hover {
 	background-color: #eaeaea;
 }
 
 .search-btn {
-	border:1px solid #222;
+	border: 1px solid #222;
 }
 
 .search-btn:active {
@@ -248,98 +254,103 @@ main {
 	gap: 24px;
 	margin-top: 24px;
 }
- /* 店舗検索とカテゴリ検索 */
+
+/* 店舗検索とカテゴリ検索 */
 .keyword-input,
 .category-select {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+	padding: 8px 12px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	font-size: 14px;
 }
 
 /* カード全体リンク */
 .store-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
+	text-decoration: none;
+	color: inherit;
+	display: block;
 }
 
 /* 共通カード */
 .store-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 12px;
-  text-decoration: none;
-  color: #333;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+	background: #fff;
+	border-radius: 12px;
+	padding: 12px;
+	text-decoration: none;
+	color: #333;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
+
 .store-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 20px;
 }
 
 /* hover */
 .store-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+	transform: translateY(-4px);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
+
 /* 画像*/
 .store-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 8px;
+	width: 100%;
+	height: 140px;
+	object-fit: cover;
+	border-radius: 8px;
 }
 
 /* トップページ用カード */
 .top-store-card {
-  padding: 0;
+	padding: 0;
 }
 
 .top-store-card .store-image {
-  height: 120px;
+	height: 120px;
 }
 
 .top-store-card .store-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 /* 一覧ページ用カード */
 .list-store-card {
-  padding: 16px;
+	padding: 16px;
 }
 
 .list-store-card .store-image {
-  height: 140px;
+	height: 140px;
 }
 
 .list-store-card .store-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 /*店舗詳細*/
 .breadcrumb {
-  background-color: transparent;
-  padding: 0;
-  margin-bottom: 12px;
+	background-color: transparent;
+	padding: 0;
+	margin-bottom: 12px;
 }
 
 .breadcrumb-item a {
-  color: #2c5f7c; /*くすみブルー*/
-  text-decoration: none;
+	color: #2c5f7c;
+	/*くすみブルー*/
+	text-decoration: none;
 }
 
 .breadcrumb-item.active {
-  color: #999;
+	color: #999;
 }
+
 .breadcrumb-item a:hover {
-  color: #16324f;
-  text-decoration: underline;
+	color: #16324f;
+	text-decoration: underline;
 }
 
 
@@ -356,50 +367,51 @@ main {
 
 /*評価 新着のお店*/
 .store-rating {
-  display: flex;
-  align-items: center;
-  gap: 6px;
- 
+	display: flex;
+	align-items: center;
+	gap: 6px;
+
 }
 
 .stars {
-  font-size: 20px;
-  letter-spacing: 2px;
+	font-size: 20px;
+	letter-spacing: 2px;
 }
 
 .star-full {
-  color: #f5b301; /* 金色 */
+	color: #f5b301;
+	/* 金色 */
 }
 
 .star-empty {
-  color: #ddd;
+	color: #ddd;
 }
 
 .star-half {
-  position: relative;
-  display: inline-block;
-  color: #ddd;
+	position: relative;
+	display: inline-block;
+	color: #ddd;
 }
 
 .star-half::before {
-  content: "★";
-  position: absolute;
-  left: 0;
-  width: 50%;
-  overflow: hidden;
-  color: #f5b301;
+	content: "★";
+	position: absolute;
+	left: 0;
+	width: 50%;
+	overflow: hidden;
+	color: #f5b301;
 }
 
 .rating-score {
-  color: #555;
-  font-size: 14px;
-  margin-left: 4px;
+	color: #555;
+	font-size: 14px;
+	margin-left: 4px;
 }
 
 .store-favorite {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #e74c3c;
+	margin-top: 6px;
+	font-size: 14px;
+	color: #e74c3c;
 }
 
 .rating-score {
@@ -419,79 +431,143 @@ main {
 */
 
 .category-tag {
-  font-size: 0.75rem;
-  padding: 2px 8px;
-  background-color: #f2f2f2;
-  border-radius: 999px;
+	font-size: 0.75rem;
+	padding: 2px 8px;
+	background-color: #f2f2f2;
+	border-radius: 999px;
 }
 
 .favorite {
-  font-size: 0.85rem;
-  color: #e25555;
+	font-size: 0.85rem;
+	color: #e25555;
 }
+
 .pre-wrap {
 	/*改行文字で折り返す */
 	white-space: pre-wrap;
 }
+
 /* ================= ロゴ（EDIT HOUSE風） ================= */
 .logo-text {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-size: 1.7rem;
-  color: #000;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	font-size: 1.7rem;
+	color: #000;
 }
 
 /* ページ見出し */
 .page-title {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
 }
 
 /* ===============================
    削除（Danger / NAGOYAMESHI）
 ================================ */
 .nagoyameshi-link-danger {
-    color: #e74c3c;
-    text-decoration: none;
-    font-weight: 500;
+	color: #e74c3c;
+	text-decoration: none;
+	font-weight: 500;
 }
 
 .nagoyameshi-link-danger:hover {
-    color: #b03a2e;
-    text-decoration: underline;
+	color: #b03a2e;
+	text-decoration: underline;
 }
 
 .nagoyameshi-btn-danger {
-    background-color: #e74c3c;
-    border: none;
-    color: #fff;
-    transition: 0.15s;
+	background-color: #e74c3c;
+	border: none;
+	color: #fff;
+	transition: 0.15s;
 }
 
 .nagoyameshi-btn-danger:hover {
-    opacity: 0.85;
+	opacity: 0.85;
 }
 
 /* 予約一覧：店舗名リンク */
 .reservation-store-link {
-  color: #d35400;        /* 赤オレンジ */
-  font-weight: 600;
-  text-decoration: none;
+	color: #d35400;
+	/* 赤オレンジ */
+	font-weight: 600;
+	text-decoration: none;
 }
 
 .reservation-store-link:hover {
-  color: #e67e22;        /* 少し明るいオレンジ */
-  text-decoration: underline;
+	color: #e67e22;
+	/* 少し明るいオレンジ */
+	text-decoration: underline;
+}
+
+/*ログインパスワード変更*/
+.auth-container {
+	max-width: 420px;
+	margin: 80px auto;
+	padding: 32px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+	text-align: center;
+}
+
+.auth-container h1 {
+	margin-bottom: 24px;
+}
+
+.auth-container input {
+	width: 100%;
+	padding: 12px;
+	margin-bottom: 16px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.auth-container button {
+	width: 100%;
+	padding: 12px;
+	background-color: #f57c00;
+	/* ← ログインと同じ色 */
+	color: white;
+	border: none;
+	border-radius: 4px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.auth-container button:hover {
+	opacity: 0.9;
+}
+
+/* メッセージ */
+.auth-message.success {
+	color: #2e7d32;
+	margin-bottom: 16px;
+}
+
+.auth-message.error {
+	color: #c62828;
+	margin-bottom: 16px;
+}
+
+/* 完了画面用リンク */
+.auth-link-button {
+	display: inline-block;
+	margin-top: 16px;
+	color: #f57c00;
+	font-weight: bold;
+	text-decoration: none;
 }
 
 
+
 @media screen and (min-width: 1400px) {
-  main {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+	main {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
 }

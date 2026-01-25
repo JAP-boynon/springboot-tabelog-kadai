@@ -108,10 +108,7 @@ public class AuthController {
 	    }    
 	 
 	 
-    @GetMapping("/password/reset")
-    public String passwordReset() {
-        return "auth/password_reset"; // ← 空でOK
-    }
+   
     
    
 

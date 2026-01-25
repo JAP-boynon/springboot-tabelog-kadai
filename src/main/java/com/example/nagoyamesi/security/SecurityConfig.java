@@ -29,7 +29,9 @@ public class SecurityConfig {
                     "/images/**",
                     "/js/**",
                     "/storage/**",
-                    "/stripe/webhook" 
+                    "/stripe/webhook",
+                    "/password/reset",
+                    "/password/reset/**"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -37,6 +39,8 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
+                .usernameParameter("email")  
+                .passwordParameter("password")
                 .successHandler((request, response, authentication) -> {
 
                     boolean isAdmin = authentication.getAuthorities().stream()
