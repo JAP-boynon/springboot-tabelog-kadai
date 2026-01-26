@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>お気に入り一覧</title>
+</head>
+<body>
+
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container pt-4 pb-5">
+
+    <!-- ★ パンくず -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a th:href="@{/}">ホーム</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                お気に入り一覧
+            </li>
+        </ol>
+    </nav>
+
+    <!-- ★ 成功メッセージ（解除しました） -->
+    <div th:if="${successMessage}"
+         class="alert alert-success alert-dismissible fade show"
+         role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"></button>
+    </div>
+
+    <h1 class="page-title mb-4">お気に入り一覧</h1>
+
+    <!-- お気に入りが0件 -->
+    <p th:if="${#lists.isEmpty(favorites)}">
+        まだお気に入り登録された店舗はありません。
+    </p>
+
+    <!-- お気に入り一覧 -->
+    <div class="store-grid" th:if="${!#lists.isEmpty(favorites)}">
+
+        <div th:each="favorite : ${favorites}"
+             class="store-card list-store-card position-relative">
+
+            <!-- 店舗リンク -->
+            <a th:href="@{/stores/{id}(id=${favorite.store.id})}"
+               class="store-card-link">
+
+                <div class="store-image mb-2">
+                    <img th:src="@{/storage/{file}(file=${favorite.store.imageName})}"
+                         alt="店舗画像">
+                </div>
+
+                <div class="store-body">
+                    <p class="store-name"
+                       th:text="${favorite.store.name}">
+                        店舗名
+                    </p>
+
+                    <p class="text-muted small mb-0"
+                       th:text="${favorite.store.categoryName}">
+                        カテゴリ
+                    </p>
+                </div>
+            </a>
+
+            <!-- ★ 解除ボタン -->
+            <button type="button"
+                    class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-2"
+                    data-bs-toggle="modal"
+                    th:data-bs-target="'#removeModal-' + ${favorite.id}">
+                解除
+            </button>
+
+            <!-- ★ 確認モーダル -->
+            <div class="modal fade"
+                 th:id="'removeModal-' + ${favorite.id}"
+                 tabindex="-1">
+
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                「<span th:text="${favorite.store.name}"></span>」の
+                                お気に入りを解除しますか？
+                            </h5>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                キャンセル
+                            </button>
+
+                            <!-- ★ 解除確定 -->
+                            <form th:action="@{/favorites/{storeId}(storeId=${favorite.store.id})}"
+                                  method="post">
+                                <input type="hidden"
+                                       th:name="${_csrf.parameterName}"
+                                       th:value="${_csrf.token}" />
+                                <button type="submit"
+                                        class="btn btn-danger">
+                                    解除
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+   
+
+</main>
+
+<div th:replace="~{fragment :: footer}"></div>
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

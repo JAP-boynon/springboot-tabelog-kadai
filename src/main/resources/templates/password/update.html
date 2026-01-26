@@ -1,32 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>パスワード再設定</title>
-  <link rel="stylesheet" th:href="@{/css/auth.css}">
-</head>
-<body>
-
-<div th:replace="fragment :: header"></div>
-
-<main class="auth-container">
-  <h1>新しいパスワードを設定</h1>
-
-  <form th:action="@{/password/reset/update/{token}(token=${token})}" method="post">
-    <input type="password"
-           name="password"
-           placeholder="新しいパスワード"
-           required>
-    <button type="submit">パスワードを更新</button>
-  </form>
-</main>
-
-<div th:replace="fragment :: footer"></div>
-
-</body>
-</html>
--->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>

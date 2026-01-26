@@ -116,5 +116,14 @@ public class StoreService {
         store.setAverageRating(avg != null ? avg : 0.0);
         storeRepository.save(store);
     }
+    
+    /**
+     * 店舗詳細取得（お気に入り判定などで使用）
+     */
+    @Transactional(readOnly = true)
+    public Store findById(Integer id) {
+        return storeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("店舗が存在しません"));
+    }
 
 }

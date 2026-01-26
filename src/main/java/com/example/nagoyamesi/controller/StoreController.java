@@ -26,8 +26,10 @@ import com.example.nagoyamesi.entity.User;
 import com.example.nagoyamesi.form.ReservationInputForm;
 import com.example.nagoyamesi.repository.StoreRepository;
 import com.example.nagoyamesi.security.UserDetailslmpl;
+import com.example.nagoyamesi.service.FavoriteService;
 import com.example.nagoyamesi.service.ReservationService;
 import com.example.nagoyamesi.service.ReviewService;
+import com.example.nagoyamesi.service.StoreService;
 import com.example.nagoyamesi.service.StripeService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -42,14 +44,23 @@ public class StoreController {
     private final ReviewService reviewService;
     private final ReservationService reservationService;
     private final StripeService stripeService;
+    private final FavoriteService favoriteService;
+    private final StoreService storeService;
    
 
-    public StoreController(StoreRepository storeRepository, ReviewService reviewService,ReservationService reservationService,StripeService stripeService
+    public StoreController(StoreRepository storeRepository,
+    		ReviewService reviewService,
+    		ReservationService reservationService,
+    		StripeService stripeService,
+    		FavoriteService favoriteService,
+    		StoreService storeService
     	    ) {
         this.storeRepository = storeRepository;
         this.reviewService = reviewService;
         this.reservationService = reservationService;
         this.stripeService = stripeService;
+        this.favoriteService = favoriteService;
+        this.storeService = storeService;
         
         
     }
@@ -179,19 +190,39 @@ public class StoreController {
      * 店舗詳細ページ
      */
     @GetMapping("/stores/{id}")
-    public String show(@PathVariable Integer id, Model model) {
-
+    public String show(
+            @PathVariable Integer id,
+            Model model,
+            @AuthenticationPrincipal UserDetailslmpl userDetailslmpl
+    ) {
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+        
 
-        // 👇 店舗に紐づくレビュー一覧を取得
+        // レビュー
         List<Review> reviews = reviewService.findByStore(store);
+
+        // お気に入り判定
+        boolean isFavorite = false;
+        if (userDetailslmpl != null) {
+            User user = userDetailslmpl.getUser();
+            isFavorite = favoriteService.isFavorite(user, store);
+        }
+
+     
+
+        // お気に入り判定
+       // boolean isFavorite = false;
+      //  if (user != null) {
+       //     isFavorite = favoriteService.isFavorite(user, store);
+      //  }
 
         model.addAttribute("store", store);
         model.addAttribute("reviews", reviews);
         model.addAttribute("reservationInputForm", new ReservationInputForm());
         model.addAttribute("reservationTimes",
                 reservationService.getReservationTimes(store));
+        model.addAttribute("isFavorite", isFavorite);
 
         return "stores/show";
     }
@@ -280,5 +311,7 @@ public class StoreController {
 
         return "redirect:/reservations?reserved";
     }
+    
+
    
 }

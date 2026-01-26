@@ -87,4 +87,26 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE IF NOT EXISTS favorites (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+  user_id INT NOT NULL,
+  store_id INT NOT NULL,
+
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT uq_favorite_user_store
+    UNIQUE (user_id, store_id),
+
+  CONSTRAINT fk_favorites_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE,
+
+  CONSTRAINT fk_favorites_store
+    FOREIGN KEY (store_id)
+    REFERENCES stores(id)
+    ON DELETE CASCADE
+);
+
 
