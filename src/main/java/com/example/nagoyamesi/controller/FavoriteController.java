@@ -61,13 +61,6 @@ public class FavoriteController {
         }
 
 
-
-        // 👇 フラッシュメッセージ追加
-        //redirectAttributes.addFlashAttribute(
-         //   "successMessage",
-         //   "お気に入りを解除しました"
-       // );
-
         // 元の店舗詳細ページへリダイレクト
         return "redirect:/stores/" + storeId;
     }
@@ -77,9 +70,10 @@ public class FavoriteController {
      */
     @GetMapping("/favorites")
     public String favoriteList(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal UserDetailslmpl userDetailslmpl,
             Model model) {
 
+    	 User user = userDetailslmpl.getUser();
         List<Favorite> favorites = favoriteService.findFavoritesByUser(user);
         model.addAttribute("favorites", favorites);
 
