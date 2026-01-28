@@ -190,7 +190,34 @@
     </div>
 </div>
 
-<div sec:authorize="hasRole('ROLE_GENERAL')">
+<div sec:authorize="isAuthenticated()"
+     th:if="${!#authentication.principal.user.isPaid}"
+     class="mt-4">
+
+  <div class="card">
+    <div class="card-body text-center">
+      <p class="card-text">
+        予約機能は <strong>有料会員限定</strong> です。
+      </p>
+
+      <a th:href="@{/subscription}"
+         class="btn btn-danger w-100">
+        予約する（有料会員限定）
+      </a>
+
+      <p class="text-muted mt-2 mb-0">
+        ※ 有料会員登録後に予約が可能になります
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div sec:authorize="isAuthenticated()"
+     th:if="${#authentication.principal.user.isPaid}">
+<!--
+	<div sec:authorize="hasRole('ROLE_GENERAL')">
+		-->
 
 		<h3 class="mt-5 mb-3">予約する</h3>
 		<form th:action="@{/stores/{id}/reservations(id=${store.id})}"

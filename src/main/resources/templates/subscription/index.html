@@ -26,6 +26,14 @@
             </li>
         </ol>
     </nav>
+    
+    <div th:if="${errorMessage}"
+     class="alert alert-warning alert-dismissible fade show"
+     role="alert">
+  <span th:text="${errorMessage}"></span>
+  <button type="button" class="btn-close"
+          data-bs-dismiss="alert"></button>
+</div>
 
     <h1 class="mb-4 text-center">有料会員登録</h1>
 
@@ -60,6 +68,7 @@
                             有料会員になる
                         </button>
                     </form>
+                    
 
                 </div>
             </div>
