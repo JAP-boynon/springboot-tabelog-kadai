@@ -94,11 +94,17 @@
           th:selected="${sort == null || sort == '' || sort == 'new_desc'}">
     新着順
   </option>
+  
 
   <option value="rating_desc"
           th:selected="${sort == 'rating_desc'}">
     評価が高い順
   </option>
+
+<option value="price_desc"
+        th:selcted="${sort == 'price_desc'}">
+        価格が高い順
+        </option>
 
   <option value="price_asc"
           th:selected="${sort == 'price_asc'}">

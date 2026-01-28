@@ -29,6 +29,12 @@ public class ReviewService {
 	        reviewRepository.save(review);
 	        storeService.updateAverageRating(review.getStore());
 	    }
+	    //レビュー編集
+	    @Transactional
+	    public void update(Review review) {
+	        reviewRepository.save(review);
+	        storeService.updateAverageRating(review.getStore());
+	    }
 	   // レビュー削除
 	    @Transactional
 	    public void delete(Review review) {

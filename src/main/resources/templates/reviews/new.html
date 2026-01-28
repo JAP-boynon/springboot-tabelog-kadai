@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <!-- 共通メタ -->
+  <div th:replace="~{fragment :: meta}"></div>
+
+  <!-- 共通CSS -->
+  <div th:replace="~{fragment :: styles}"></div>
+
+  <title>レビュー投稿</title>
+</head>
+<body>
+
+<!-- 共通ヘッダー -->
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container pt-4 pb-5">
+
+  <!-- パンくず -->
+  <nav class="mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a th:href="@{/}">ホーム</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a th:href="@{/stores/{id}(id=${store.id})}"
+           th:text="${store.name}">店舗</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        レビュー投稿
+      </li>
+    </ol>
+  </nav>
+
+  <h1 class="mb-4 text-center"
+      th:text="${store.name} + ' のレビューを書く'"></h1>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+
+          <form th:action="@{/reviews/create}" method="post">
+
+            <input type="hidden" name="storeId"
+                   th:value="${store.id}">
+
+            <!-- 評価 -->
+            <div class="mb-3">
+              <label class="form-label">評価</label>
+              <select name="rating" class="form-select w-auto">
+                <option th:each="i : ${#numbers.sequence(1,5)}"
+                        th:value="${i}"
+                        th:text="${i}">
+                </option>
+              </select>
+            </div>
+
+            <!-- コメント -->
+            <div class="mb-3">
+              <label class="form-label">コメント</label>
+              <textarea name="comment"
+                        class="form-control"
+                        rows="4"
+                        placeholder="感想を書いてください"></textarea>
+            </div>
+
+            <div class="text-center">
+              <button type="submit"
+                      class="btn btn-primary px-5">
+                投稿する
+              </button>
+
+              <a th:href="@{/stores/{id}(id=${store.id})}"
+                 class="btn btn-secondary ms-2">
+                戻る
+              </a>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- 共通フッター -->
+<div th:replace="~{fragment :: footer}"></div>
+
+<!-- 共通JS -->
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

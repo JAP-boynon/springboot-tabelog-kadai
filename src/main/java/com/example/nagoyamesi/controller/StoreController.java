@@ -29,9 +29,6 @@ import com.example.nagoyamesi.service.FavoriteService;
 import com.example.nagoyamesi.service.ReservationService;
 import com.example.nagoyamesi.service.ReviewService;
 import com.example.nagoyamesi.service.StoreService;
-import com.example.nagoyamesi.service.StripeService;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class StoreController {
@@ -39,7 +36,6 @@ public class StoreController {
     private final StoreRepository storeRepository;
     private final ReviewService reviewService;
     private final ReservationService reservationService;
-    private final StripeService stripeService;
     private final FavoriteService favoriteService;
     private final StoreService storeService;
    
@@ -47,16 +43,15 @@ public class StoreController {
     public StoreController(StoreRepository storeRepository,
     		ReviewService reviewService,
     		ReservationService reservationService,
-    		StripeService stripeService,
+    		StoreService storeService,
     		FavoriteService favoriteService,
-    		StoreService storeService
+    		StoreService storeService1
     	    ) {
         this.storeRepository = storeRepository;
         this.reviewService = reviewService;
         this.reservationService = reservationService;
-        this.stripeService = stripeService;
         this.favoriteService = favoriteService;
-        this.storeService = storeService;
+        this.storeService = storeService1;
         
         
     }
@@ -108,6 +103,9 @@ public class StoreController {
 
     	} else if ("rating_desc".equals(sort)) {
     	    sortCondition = Sort.by(Sort.Direction.DESC, "averageRating");
+    	    
+    	} else if ("price_desc".equals(sort)) {
+    	        sortCondition = Sort.by(Sort.Direction.DESC, "price");
 
     	} else if ("price_asc".equals(sort)) {
     	    sortCondition = Sort.by(Sort.Direction.ASC, "price");
@@ -207,12 +205,6 @@ public class StoreController {
 
      
 
-        // お気に入り判定
-       // boolean isFavorite = false;
-      //  if (user != null) {
-       //     isFavorite = favoriteService.isFavorite(user, store);
-      //  }
-
         model.addAttribute("store", store);
         model.addAttribute("reviews", reviews);
         model.addAttribute("reservationInputForm", new ReservationInputForm());
@@ -222,7 +214,10 @@ public class StoreController {
 
         return "stores/show";
     }
+    
+    
     //予約内容確認
+    /*
     @PostMapping("/stores/{id}/reservations/confirm")
     public String confirm(
             @PathVariable Integer id,
@@ -262,6 +257,8 @@ public class StoreController {
 
         return "reservations/confirm";
     }
+    */
+    
     
     @PostMapping("/stores/{id}/reservations")
     public String createReservation(
@@ -305,6 +302,8 @@ public class StoreController {
 
         return "redirect:/reservations";
     }
+    
+    
     /**
      * Stripe 決済完了後
      
