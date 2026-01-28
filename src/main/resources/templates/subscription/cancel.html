@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	 <!-- 共通メタ -->
+    <div th:replace="~{fragment :: meta}"></div>
+    <!-- 共通CSS -->
+    <div th:replace="~{fragment :: styles}"></div>
+    
+  <title>有料プラン解約</title>
+</head>
+<body>
+<div th:replace="~{fragment :: header}"></div>
+
+<div class="container">
+  <h1>有料プラン解約</h1>
+
+  <p>有料プランを解約すると以下の特典を受けられなくなります。</p>
+
+  <ul>
+    <li>予約機能</li>
+    <li>レビュー投稿</li>
+    <li>お気に入り登録</li>
+  </ul>
+
+  <form th:action="@{/subscription/cancel}" method="post">
+    <button class="btn btn-danger">解約する</button>
+  </form>
+</div>
+
+<div th:replace="~{fragment :: footer}"></div>
+<!-- 共通JS -->
+<div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

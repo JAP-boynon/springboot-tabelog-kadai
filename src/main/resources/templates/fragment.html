@@ -64,14 +64,45 @@
         <li>
             <a class="dropdown-item" th:href="@{/user}">会員情報</a>
         </li>
-        <li>
+        <!--
+        <li th:if="${user.isPaid}">
             <a class="dropdown-item" th:href="@{/reservations}">予約一覧</a>
         </li>
-          <li>
-        <a class="dropdown-item" th:href="@{/favorites}">
-            お気に入り一覧
-        </a>
+        -->
+        
+       <!-- 有料会員のみ：予約一覧 -->
+    <li sec:authorize="isAuthenticated()"
+        th:if="${#authentication.principal.user.isPaid}">
+      <a class="dropdown-item" th:href="@{/reservations}">
+        予約一覧
+      </a>
     </li>
+
+    <!-- 有料会員のみ：お気に入り -->
+    <li sec:authorize="isAuthenticated()"
+        th:if="${#authentication.principal.user.isPaid}">
+      <a class="dropdown-item" th:href="@{/favorites}">
+        お気に入り一覧
+      </a>
+    </li>
+
+    <!-- 無料会員のみ -->
+    <li sec:authorize="isAuthenticated()"
+        th:if="${!#authentication.principal.user.isPaid}">
+      <a class="dropdown-item" th:href="@{/subscription}">
+        有料会員登録
+      </a>
+    </li>
+
+    <!-- 有料会員のみ -->
+    <li sec:authorize="isAuthenticated()"
+        th:if="${#authentication.principal.user.isPaid}">
+      <a class="dropdown-item" th:href="@{/subscription/cancel}">
+        有料プラン解約
+      </a>
+    </li>
+
+
     
         <li><hr class="dropdown-divider"></li>
         <li>

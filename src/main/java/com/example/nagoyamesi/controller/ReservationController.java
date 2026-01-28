@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.nagoyamesi.entity.Reservation;
 import com.example.nagoyamesi.entity.User;
@@ -29,11 +30,11 @@ public class ReservationController {
 	 */
 	@GetMapping("/reservations")
 	public String index(
-			@AuthenticationPrincipal UserDetailslmpl userDetailsImpl,
+			@AuthenticationPrincipal UserDetailslmpl userDetailslmpl,
 			@PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
 			Model model) {
 
-		User user = userDetailsImpl.getUser();
+		User user = userDetailslmpl.getUser();
 
 		Page<Reservation> reservationPage = reservationRepository.findByUserOrderByCreatedAtDesc(user, pageable);
 
@@ -45,9 +46,21 @@ public class ReservationController {
 	@PostMapping("/reservations/{id}/delete")
 	public String delete(
 			@PathVariable Integer id,
-			@AuthenticationPrincipal UserDetailslmpl userDetailslmpl) {
+			@AuthenticationPrincipal UserDetailslmpl userDetailslmpl,
+			RedirectAttributes redirectAttributes) {
 
 		User user = userDetailslmpl.getUser();
+		
+		// ⭐ 有料会員チェック
+	    if (!user.isPaid()) {
+	        redirectAttributes.addFlashAttribute(
+	            "errorMessage",
+	            "予約のキャンセルは有料会員限定の機能です"
+	        );
+	        return "redirect:/reservations";
+	    }
+
+
 
 		Reservation reservation = reservationRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("予約が存在しません"));
@@ -58,6 +71,10 @@ public class ReservationController {
 		}
 
 		reservationRepository.delete(reservation);
+		redirectAttributes.addFlashAttribute(
+		        "successMessage",
+		        "予約をキャンセルしました"
+		    );
 
 		return "redirect:/reservations?canceled";
 	}

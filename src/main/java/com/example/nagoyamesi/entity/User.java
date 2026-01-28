@@ -24,6 +24,9 @@ public class User implements Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
+	@Column(name = "is_paid", nullable = false)
+	private boolean isPaid;
+	
 	@Column(name = "name")
 	private String name;
 	

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <!-- 共通メタ -->
+    <div th:replace="~{fragment :: meta}"></div>
+    <!-- 共通CSS -->
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>有料会員登録</title>
+</head>
+
+<body>
+
+<!-- 共通ヘッダー -->
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container pt-4 pb-5">
+
+    <!-- パンくず -->
+    <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a th:href="@{/}">ホーム</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                有料会員登録
+            </li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4 text-center">有料会員登録</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title mb-3 text-center">
+                        有料プラン（月額300円）
+                    </h5>
+
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item">
+                            ・当日の2時間前までいつでも予約可能
+                        </li>
+                        <li class="list-group-item">
+                            ・店舗を好きなだけお気に入りに追加可能
+                        </li>
+                        <li class="list-group-item">
+                            ・すべてのレビューを閲覧可能
+                        </li>
+                        <li class="list-group-item">
+                            ・レビュー投稿が可能
+                        </li>
+                    </ul>
+
+                    <!-- ⭐ 有料会員登録ボタン -->
+                    <form th:action="@{/subscription/activate}" method="post" class="text-center">
+                        <button type="submit" class="btn btn-danger px-5">
+                            有料会員になる
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<!-- 共通フッター -->
+<div th:replace="~{fragment :: footer}"></div>
+<!-- 共通JS -->
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

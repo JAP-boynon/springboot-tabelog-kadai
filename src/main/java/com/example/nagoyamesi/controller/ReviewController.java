@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.nagoyamesi.entity.Review;
 import com.example.nagoyamesi.entity.Store;
@@ -35,13 +36,24 @@ public class ReviewController {
 	    public String create(@RequestParam Integer storeId,
 	                         @RequestParam Integer rating,
 	                         @RequestParam(required = false) String comment,
-	                         Principal principal) {
+	                         Principal principal,
+	                         RedirectAttributes redirectAttributes
+               ) {
 
 	        Store store = storeRepository.findById(storeId)
 	                .orElseThrow();
 
 	        User user = userRepository.findByEmail(principal.getName())
 	                .orElseThrow();
+	        
+	        // ★ 有料会員チェック
+	        if (!user.isPaid()) {
+	            redirectAttributes.addFlashAttribute(
+	                "errorMessage",
+	                "レビュー投稿は有料会員限定の機能です"
+	            );
+	            return "redirect:/stores/" + storeId;
+	        }
 
 	        Review review = new Review();
 	        review.setStore(store);
@@ -54,17 +66,38 @@ public class ReviewController {
 	        return "redirect:/stores/" + storeId;
 	    }
 	    @PostMapping("/delete/{id}")
-	    public String delete(@PathVariable Integer id, Principal principal) {
+	    public String delete(@PathVariable Integer id,
+	    		Principal principal,
+	    		 RedirectAttributes redirectAttributes) {
 
 	        Review review = reviewService.findById(id);
-	     // ログインユーザーとレビュー投稿者が一致するか
-	        if (!review.getUser().getEmail().equals(principal.getName())) {
-	        	throw new AccessDeniedException("このレビューは削除できません");
-	        }
+	        User user = review.getUser();
+	    
 
 	        Integer storeId = review.getStore().getId();
+	        
+	        // ⭐ 有料会員チェック
+	        if (!user.isPaid()) {
+	            redirectAttributes.addFlashAttribute(
+	                "errorMessage",
+	                "レビューの削除は有料会員限定の機能です"
+	            );
+	            return "redirect:/stores/" + storeId;
+	        }
+
+	        // 投稿者本人チェック
+	        if (!user.getEmail().equals(principal.getName())) {
+	            throw new AccessDeniedException("このレビューは削除できません");
+	        }
+
+
 
 	        reviewService.delete(review);
+	        redirectAttributes.addFlashAttribute(
+	                "successMessage",
+	                "レビューを削除しました"
+	            );
+
 
 	        return "redirect:/stores/" + storeId;
 	    }

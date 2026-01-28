@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.nagoyamesi.entity.Reservation;
 import com.example.nagoyamesi.entity.Store;
 import com.example.nagoyamesi.entity.User;
+import com.example.nagoyamesi.form.ReservationInputForm;
 import com.example.nagoyamesi.repository.ReservationRepository;
 import com.example.nagoyamesi.repository.StoreRepository;
 import com.example.nagoyamesi.repository.UserRepository;
@@ -30,7 +31,7 @@ public class ReservationService {
         this.storeRepository = storeRepository;
         this.userRepository = userRepository;
     }
-    
+    //stripe専用
     public void create(Map<String, String> metadata) {
     	
     	   String stripeSessionId = metadata.get("stripeSessionId");
@@ -69,6 +70,24 @@ public class ReservationService {
 
         reservationRepository.save(reservation);
     }
+    
+ // ===== ⭐ 通常予約（有料会員用） =====
+    public void create(Store store, User user, ReservationInputForm form) {
+
+        Reservation reservation = new Reservation();
+        reservation.setStore(store);
+        reservation.setUser(user);
+        reservation.setReservationDate(form.getReservationDate());
+        reservation.setReservationTime(form.getReservationTime());
+        reservation.setNumberOfPeople(form.getNumberOfPeople());
+
+        // Stripeを使わないので null
+        reservation.setStripeSessionId(null);
+
+        reservationRepository.save(reservation);
+    }
+
+
 
     public List<String> getReservationTimes(Store store) {
 

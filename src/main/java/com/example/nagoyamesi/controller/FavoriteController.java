@@ -44,6 +44,15 @@ public class FavoriteController {
         System.out.println("user id = " + user.getId());
         System.out.println("store id = " + storeId);
         
+        // 💳 有料会員チェック
+	    if (!user.isPaid()) {
+	        redirectAttributes.addFlashAttribute(
+	                "errorMessage",
+	                "お気に入り登録は有料会員限定の機能です"
+	        );
+	        return "redirect:/stores/" + storeId;
+	    }
+        
         // 店舗取得
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("店舗が存在しません"));

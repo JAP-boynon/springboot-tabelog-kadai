@@ -1,7 +1,5 @@
 package com.example.nagoyamesi.controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.nagoyamesi.entity.Review;
 import com.example.nagoyamesi.entity.Store;
@@ -31,9 +30,6 @@ import com.example.nagoyamesi.service.ReservationService;
 import com.example.nagoyamesi.service.ReviewService;
 import com.example.nagoyamesi.service.StoreService;
 import com.example.nagoyamesi.service.StripeService;
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
-import com.stripe.model.checkout.Session;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -267,27 +263,51 @@ public class StoreController {
         return "reservations/confirm";
     }
     
-   // @PostMapping("/stores/{id}/reservations")
-   // public String create(
-         //   @PathVariable Integer id,
-          //  @ModelAttribute ReservationInputForm reservationInputForm,
-          //  @AuthenticationPrincipal UserDetailslmpl userDetailslmpl
-  //  ) {
-    //    Store store = storeRepository.findById(id)
-     //           .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+    @PostMapping("/stores/{id}/reservations")
+    public String createReservation(
+            @PathVariable Integer id,
+            @Validated @ModelAttribute ReservationInputForm reservationInputForm,
+            BindingResult bindingResult,
+            @AuthenticationPrincipal UserDetailslmpl userDetailslmpl,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
+        User user = userDetailslmpl.getUser();
 
-     //   User user = userDetailslmpl.getUser();
+        // ⭐ 有料会員チェック
+        if (!user.isPaid()) {
+            redirectAttributes.addFlashAttribute(
+                "errorMessage",
+                "予約は有料会員限定の機能です"
+            );
+            return "redirect:/stores/" + id;
+        }
 
-        // 予約を保存
-       // reservationService.create(store, user, reservationInputForm);
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
 
-        // 一覧へ
-      //  return "redirect:/reservations?reserved";
-    //}
-    
+        // バリデーションエラー時
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("store", store);
+            model.addAttribute("reviews", reviewService.findByStore(store));
+            model.addAttribute("reservationTimes",
+                    reservationService.getReservationTimes(store));
+            return "stores/show";
+        }
+
+        // ⭐ 予約作成
+        reservationService.create(store, user, reservationInputForm);
+
+        redirectAttributes.addFlashAttribute(
+            "successMessage",
+            "予約が完了しました"
+        );
+
+        return "redirect:/reservations";
+    }
     /**
      * Stripe 決済完了後
-     */
+     
     @GetMapping("/stores/{id}/reservations")
     public String success(
             @PathVariable Integer id,
@@ -312,6 +332,6 @@ public class StoreController {
         return "redirect:/reservations?reserved";
     }
     
-
+*/
    
 }
