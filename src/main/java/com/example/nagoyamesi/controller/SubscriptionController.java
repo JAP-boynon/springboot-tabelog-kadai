@@ -10,15 +10,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.nagoyamesi.entity.User;
 import com.example.nagoyamesi.repository.UserRepository;
 import com.example.nagoyamesi.security.UserDetailslmpl;
+import com.example.nagoyamesi.service.StripeService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/subscription")
 public class SubscriptionController {
 	
 	private final UserRepository userRepository;
+	private final StripeService stripeService;
 
-    public SubscriptionController(UserRepository userRepository) {
+    public SubscriptionController(UserRepository userRepository,
+    		StripeService stripeService) {
         this.userRepository = userRepository;
+        this.stripeService = stripeService;
     }
 
 	
@@ -65,17 +71,48 @@ public class SubscriptionController {
 	        return "redirect:/?canceled";
 	    }
 	    
-	    @PostMapping("/activate")
-	    public String activate(
-	            @AuthenticationPrincipal UserDetailslmpl userDetails) {
+	    @PostMapping("/checkout")
+	    public String checkout(
+	            @AuthenticationPrincipal UserDetailslmpl userDetails,
+	            HttpServletRequest request
+	    ) {
+	        User user = userDetails.getUser();
+
+	        String checkoutUrl =
+	                stripeService.createSubscriptionSession(user, request);
+
+	        return "redirect:" + checkoutUrl;
+	    }
+	    
+	    
+	    @GetMapping("/complete")
+	    public String complete(
+	            @AuthenticationPrincipal UserDetailslmpl userDetails,
+	            RedirectAttributes redirectAttributes) {
 
 	        User user = userDetails.getUser();
+
+	        // 有料会員にする
 	        user.setPaid(true);
 	        userRepository.save(user);
-	        
 
+	        redirectAttributes.addFlashAttribute(
+	            "successMessage",
+	            "有料会員登録が完了しました！"
+	        );
 
-	        return "redirect:/?activated";
+	        return "redirect:/";
+	    }
+	    
+	    @PostMapping("/portal")
+	    public String portal(
+	        @AuthenticationPrincipal UserDetailslmpl userDetails,
+	        HttpServletRequest request
+	    ) {
+	        String url = stripeService.createCustomerPortalSession(
+	            userDetails.getUser(), request
+	        );
+	        return "redirect:" + url;
 	    }
 	}
 

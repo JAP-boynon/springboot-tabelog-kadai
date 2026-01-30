@@ -101,7 +101,20 @@
         有料プラン解約
       </a>
     </li>
+    <!-- 有料会員のみ -->
+<li sec:authorize="isAuthenticated()"
+    th:if="${#authentication.principal.user.isPaid}">
+  <a class="dropdown-item" th:href="@{/payment}">
+    クレジットカード情報
+  </a>
+</li>
 
+<!-- 無料会員 -->
+<!--
+<li th:if="${!#authentication.principal.user.paid}">
+  <a th:href="@{/subscription}">有料会員登録</a>
+</li>
+-->
 
     
         <li><hr class="dropdown-divider"></li>

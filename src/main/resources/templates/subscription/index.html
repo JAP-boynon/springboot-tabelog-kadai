@@ -62,13 +62,19 @@
                         </li>
                     </ul>
 
-                    <!-- ⭐ 有料会員登録ボタン -->
+
+  <form th:action="@{/subscription/checkout}" method="post" class="text-center">
+      <button type="submit" class="btn btn-danger px-5">
+          有料会員になる
+      </button>
+  </form>
+                    <!-- ⭐ 有料会員登録ボタン 
                     <form th:action="@{/subscription/activate}" method="post" class="text-center">
                         <button type="submit" class="btn btn-danger px-5">
                             有料会員になる
                         </button>
                     </form>
-                    
+                    -->
 
                 </div>
             </div>
