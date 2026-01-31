@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <!-- meta -->
+    <div th:replace="~{fragment :: meta}"></div>
+
+    <title>カテゴリ一覧 | 管理者</title>
+
+    <!-- styles -->
+    <div th:replace="~{fragment :: styles}"></div>
+
+</head>
+<body>
+
+<!-- ===== ヘッダー（ハンバーガーメニューは fragment 側） ===== -->
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container mt-4">
+
+    <!-- ===== パンくず ===== -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a th:href="@{/admin}">管理者トップ</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                カテゴリ一覧
+            </li>
+        </ol>
+    </nav>
+    
+    <!-- フラッシュメッセージ -->
+    
+
+<!-- 🔴 エラーメッセージ -->
+<div th:if="${errorMessage}" class="alert alert-danger">
+    [[${errorMessage}]]
+</div>
+
+<!-- 🟢 成功メッセージ -->
+<div th:if="${successMessage}" class="alert alert-success">
+    [[${successMessage}]]
+</div>
+<!--
+<div th:if="${successMessage}" class="alert alert-success">
+    <span th:text="${successMessage}"></span>
+</div>
+-->
+
+    <!-- ===== タイトル ===== -->
+    
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">カテゴリ一覧</h2>
+        
+
+        <!-- カテゴリ登録 -->
+        <a th:href="@{/admin/categories/new}" class="btn btn-primary">
+            ＋ カテゴリ登録
+        </a>
+    </div>
+
+    <!-- ===== 検索フォーム ===== -->
+    <form th:action="@{/admin/categories}" method="get" class="row g-2 mb-4">
+        <div class="col-auto">
+            <input type="text"
+                   name="keyword"
+                   class="form-control"
+                   placeholder="カテゴリ名で検索"
+                   th:value="${keyword}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-secondary">
+                検索
+            </button>
+        </div>
+    </form>
+
+    <!-- ===== 一覧テーブル ===== -->
+    <table class="table table-striped align-middle">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>カテゴリ名</th>
+            <th>登録日</th>
+            <th>更新日</th>
+            <th class="text-center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+            <td th:text="${#temporals.format(category.createdAt, 'yyyy/MM/dd HH:mm')}"></td>
+            <td th:text="${#temporals.format(category.updatedAt, 'yyyy/MM/dd HH:mm')}"></td>
+            <td class="text-center">
+                <!-- 編集 -->
+                <a th:href="@{/admin/categories/{id}/edit(id=${category.id})}"
+                   class="btn btn-sm btn-outline-primary me-1">
+                    編集
+                </a>
+
+                <!-- 削除 -->
+                <form th:action="@{/admin/categories/{id}/delete(id=${category.id})}"
+                      method="post"
+                      class="d-inline">
+                    <button type="submit"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('本当に削除しますか？')">
+                        削除
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</main>
+
+<!-- ===== フッター ===== -->
+<div th:replace="~{fragment :: footer}"></div>
+
+<!-- scripts -->
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

@@ -11,6 +11,18 @@
 <div th:replace="~{fragment :: header}"></div>
 
 <main class="container pt-4 pb-5">
+	
+	 <!-- ===== パンくず ===== -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a th:href="@{/admin}">管理者トップ</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                店舗一覧
+            </li>
+        </ol>
+    </nav>
     <h1 class="page-title text-center mb-4">ADMIN STORES</h1>
 
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <title>管理者トップ | NAGOYAMESHI</title>
+    <div th:replace="~{fragment :: styles}"></div>
+</head>
+<body>
+
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container mt-4">
+
+    <h2>管理者用トップページ</h2>
+
+    <p>管理者メニューから操作を選択してください。</p>
+    
+    <div class="admin-menu">
+  <a th:href="@{/admin/stores}">🏪 店舗管理</a>
+  <a th:href="@{/admin/users}">👤 会員管理</a>
+  <a th:href="@{/admin/categories}">📂 カテゴリ管理</a>
+</div>
+<!--
+  <ul class="list-group list-group-flush col-md-6">
+
+
+  <ul class="list-group list-group-flush col-md-6">
+
+ <ul class="list-group list-group-flush col-md-6">
+
+  <li class="list-group-item d-flex align-items-center">
+    <span class="me-3 fs-4">🏪</span>
+    <a th:href="@{/admin/stores}" class="text-decoration-none fw-bold">
+      店舗管理
+    </a>
+  </li>
+
+  <li class="list-group-item d-flex align-items-center">
+    <span class="me-3 fs-4">👤</span>
+    <a th:href="@{/admin/users}" class="text-decoration-none fw-bold">
+      会員管理
+    </a>
+  </li>
+  
+   <li class="list-group-item d-flex align-items-center">
+    <span class="me-3 fs-4">📂</span>
+    <a th:href="@{/admin/categories}" class="text-decoration-none fw-bold">
+      カテゴリ管理
+    </a>
+  </li>
+
+</ul>
+
+</ul>
+
+</ul>
+-->
+
+</main>
+
+<div th:replace="~{fragment :: footer}"></div>
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

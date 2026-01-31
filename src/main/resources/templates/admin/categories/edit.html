@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <!-- meta -->
+    <div th:replace="~{fragment :: meta}"></div>
+
+    <title>カテゴリ編集 | 管理者</title>
+
+    <!-- styles -->
+    <div th:replace="~{fragment :: styles}"></div>
+
+</head>
+<body>
+
+<!-- ヘッダー -->
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container mt-4">
+
+    <!-- ===== パンくず ===== -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a th:href="@{/admin}">管理者トップ</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a th:href="@{/admin/categories}">カテゴリ一覧</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                カテゴリ編集
+            </li>
+        </ol>
+    </nav>
+
+    <!-- ===== タイトル ===== -->
+    <h2 class="mb-4">カテゴリ編集</h2>
+
+    <!-- ===== 編集フォーム ===== -->
+    <form th:action="@{/admin/categories/{id}(id=${category.id})}"
+          method="post"
+          class="col-md-6">
+
+        <div class="mb-3">
+            <label class="form-label">カテゴリ名</label>
+            <input type="text"
+                   name="name"
+                   class="form-control"
+                   th:value="${category.name}"
+                   required>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">
+                更新
+            </button>
+            <a th:href="@{/admin/categories}" class="btn btn-secondary ms-2">
+                戻る
+            </a>
+        </div>
+
+    </form>
+
+</main>
+
+<!-- フッター -->
+<div th:replace="~{fragment :: footer}"></div>
+
+<!-- scripts -->
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

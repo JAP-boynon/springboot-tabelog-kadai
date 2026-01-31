@@ -13,9 +13,22 @@
            <div th:replace="~{fragment :: header}"></div>
            
            <main>
+			   
                <div class="container pt-4 pb-5 samuraitravel-container">
                    <div class="row justify-content-center">
                        <div class="col-xxl-9 col-xl-10 col-lg-11">
+						   
+						    <!-- ===== パンくず ===== -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a th:href="@{/admin}">管理者トップ</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                会員一覧
+            </li>
+        </ol>
+    </nav>
                            
                            <h1 class="mb-4 text-center">会員一覧</h1>   
                            

@@ -49,5 +49,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
     List<Store> findTop6ByOrderByAverageRatingDesc();
   //新着６件//
     List<Store> findTop6ByOrderByCreatedAtDesc();
+    
+  //  boolean existsByCategory_Id(Long categoryId);
 }
 

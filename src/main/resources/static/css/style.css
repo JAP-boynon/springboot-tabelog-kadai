@@ -563,6 +563,40 @@ main {
 	text-decoration: none;
 }
 
+/* 管理者トップ メニュー */
+.admin-menu {
+  max-width: 420px;
+  margin-top: 24px;
+}
+
+/* 各メニュー項目 */
+.admin-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 18px;
+  margin-bottom: 12px;
+
+  background-color: #ffffff;
+  border-radius: 10px;
+
+  color: #333;
+  font-weight: 600;
+  text-decoration: none;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+/* hover時 */
+.admin-menu a:hover {
+  background-color: #fff7cc;   /* NAGOYAMESHIっぽい淡い黄色 */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  color: #000;
+}
+
 
 
 @media screen and (min-width: 1400px) {

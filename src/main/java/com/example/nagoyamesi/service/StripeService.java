@@ -103,6 +103,8 @@ public class StripeService {
 
 
  // クレカ情報「表示用」取得
+   
+ // クレカ情報「表示用」取得
     public PaymentMethod getDefaultPaymentMethod(User user) {
         Stripe.apiKey = stripeApiKey;
 
