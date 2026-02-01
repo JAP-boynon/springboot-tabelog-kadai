@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <div th:replace="~{fragment :: meta}"></div>
+  <title>会社情報 | 管理者</title>
+  <div th:replace="~{fragment :: styles}"></div>
+</head>
+<body>
+
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container mt-4">
+	
+	<!-- パンくず -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a th:href="@{/admin}">管理者トップ</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      会社情報
+    </li>
+  </ol>
+</nav>
+
+  <h2>会社情報</h2>
+
+  <div th:if="${successMessage}" class="alert alert-success">
+    [[${successMessage}]]
+  </div>
+
+  <table class="table table-bordered">
+    <tr><th>会社名</th><td th:text="${company.name}"></td></tr>
+    <tr><th>代表者</th><td th:text="${company.representative}"></td></tr>
+    <tr><th>住所</th><td th:text="${company.address}"></td></tr>
+    <tr><th>事業内容</th><td th:text="${company.business}"></td></tr>
+  </table>
+
+  <a th:href="@{/admin/company/edit}" class="btn btn-primary">
+    編集
+  </a>
+
+</main>
+
+<div th:replace="~{fragment :: footer}"></div>
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>

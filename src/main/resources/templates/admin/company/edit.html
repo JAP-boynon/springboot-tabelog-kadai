@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <div th:replace="~{fragment :: meta}"></div>
+  <title>会社情報編集 | 管理者</title>
+  <div th:replace="~{fragment :: styles}"></div>
+</head>
+<body>
+
+<div th:replace="~{fragment :: header}"></div>
+
+<main class="container mt-4">
+	
+	<!-- パンくず -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a th:href="@{/admin}">管理者トップ</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a th:href="@{/admin/company}">会社情報</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      編集
+    </li>
+  </ol>
+</nav>
+
+  <h2>会社情報編集</h2>
+
+  <form th:action="@{/admin/company}" method="post">
+
+    <div class="mb-3">
+      <label>会社名</label>
+      <input class="form-control" name="name"
+             th:value="${company.name}">
+    </div>
+
+    <div class="mb-3">
+      <label>代表者</label>
+      <input class="form-control" name="representative"
+             th:value="${company.representative}">
+    </div>
+
+    <div class="mb-3">
+      <label>住所</label>
+      <input class="form-control" name="address"
+             th:value="${company.address}">
+    </div>
+
+    <div class="mb-3">
+      <label>事業内容</label>
+      <textarea class="form-control" name="business"
+        th:text="${company.business}"></textarea>
+    </div>
+
+    <button class="btn btn-success">更新</button>
+    <a th:href="@{/admin/company}" class="btn btn-secondary">戻る</a>
+
+  </form>
+
+</main>
+
+<div th:replace="~{fragment :: footer}"></div>
+<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+</html>
