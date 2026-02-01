@@ -233,17 +233,17 @@ INSERT INTO stores (
 --(12, 13, '2026-01-30', '19:30:00', 5);
 
 
-/*
+
 -- roles（初期マスタなのでOK）
-INSERT INTO roles (id, name) VALUES
+INSERT IGNORE INTO roles (id, name) VALUES
 (1, 'ROLE_GENERAL'),
 (2, 'ROLE_ADMIN');
-*/
+
 
 -- 一般ユーザー
 
-/*
-INSERT INTO users (
+
+INSERT IGNORE INTO users (
   name,
   furigana,
   postal_code,
@@ -265,13 +265,13 @@ INSERT INTO users (
   true
 ); 
 
-*/
+
 
 
 
 -- 管理者ユーザー
-/*
-INSERT INTO users (
+
+INSERT IGNORE INTO users (
   name,
   furigana,
   postal_code,
@@ -292,4 +292,4 @@ INSERT INTO users (
   2,
   true
 );
-*/
+
