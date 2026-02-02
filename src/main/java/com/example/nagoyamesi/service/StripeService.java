@@ -64,7 +64,7 @@ public class StripeService {
                         )
                        // .setSuccessUrl(baseUrl + "/subscription/complete")
                        // .setCancelUrl(baseUrl + "/subscription")
-                        .setSuccessUrl(baseUrl + "/")
+                        .setSuccessUrl(baseUrl + "/login")
                         .setCancelUrl(baseUrl + "/payment")
                         .build();
 
