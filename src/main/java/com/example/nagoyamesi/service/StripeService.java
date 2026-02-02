@@ -45,8 +45,9 @@ public class StripeService {
 
         String baseUrl =
                 request.getScheme() + "://" +
-                request.getServerName() + ":" +
-                request.getServerPort();
+                request.getServerName();
+               // request.getServerName() + ":" +
+               // request.getServerPort();
 
         SessionCreateParams params =
                 SessionCreateParams.builder()
@@ -63,8 +64,8 @@ public class StripeService {
                         )
                        // .setSuccessUrl(baseUrl + "/subscription/complete")
                        // .setCancelUrl(baseUrl + "/subscription")
-                        .setSuccessUrl("http://localhost:8080/")
-                        .setCancelUrl("http://localhost:8080/payment")
+                        .setSuccessUrl(baseUrl + "/")
+                        .setCancelUrl(baseUrl + "/payment")
                         .build();
 
         try {
