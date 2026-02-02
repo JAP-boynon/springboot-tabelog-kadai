@@ -92,80 +92,88 @@ public class StoreController {
         Model model
     ) {
 
-        /* =========================
-           ① 並び替え条件を決める
-           ========================= */
-    	Sort sortCondition;
-
-    	// デフォルト：新着順
-    	if (sort == null || sort.isEmpty() || "new_desc".equals(sort)) {
-    	    sortCondition = Sort.by(Sort.Direction.DESC, "createdAt");
-
-    	} else if ("rating_desc".equals(sort)) {
-    	    sortCondition = Sort.by(Sort.Direction.DESC, "averageRating");
-    	    
-    	} else if ("price_desc".equals(sort)) {
-    	        sortCondition = Sort.by(Sort.Direction.DESC, "price");
-
-    	} else if ("price_asc".equals(sort)) {
-    	    sortCondition = Sort.by(Sort.Direction.ASC, "price");
-
-    	} else if ("review_desc".equals(sort)) {
-    	    sortCondition = Sort.by(Sort.Direction.DESC, "reviewCount");
-
-    	} else {
-    	    // 万が一の保険
-    	    sortCondition = Sort.by(Sort.Direction.DESC, "createdAt");
-    	}
-
-        /* =========================
-           ② Pageable に合体させる
-           ========================= */
-        Pageable sortedPageable =
-            PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                sortCondition
-            );
-
-        /* =========================
-           ③ 検索条件の判定
-           ========================= */
         Page<Store> storePage;
 
         boolean hasKeyword = keyword != null && !keyword.isEmpty();
         boolean hasCategory = category != null && !category.isEmpty();
         boolean hasPrice = price != null;
 
-        if (hasKeyword && hasCategory && hasPrice) {
-            storePage = storeRepository
-                .findByNameContainingAndCategoryNameAndPriceLessThanEqual(
-                    keyword, category, price, sortedPageable);
+        /* =========================
+           ★ ① 口コミが多い順だけ特別処理
+           ========================= */
+        if ("review_desc".equals(sort)) {
 
-        } else if (hasKeyword && hasCategory) {
-            storePage = storeRepository
-                .findByNameContainingAndCategoryName(
-                    keyword, category, sortedPageable);
+            // 口コミ数順は Sort.by() が使えないので専用Query
+            Pageable reviewPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize()
+            );
 
-        } else if (hasCategory && hasPrice) {
             storePage = storeRepository
-                .findByCategoryNameAndPriceLessThanEqual(
-                    category, price, sortedPageable);
-
-        } else if (hasKeyword) {
-            storePage = storeRepository
-                .findByNameContaining(keyword, sortedPageable);
-
-        } else if (hasCategory) {
-            storePage = storeRepository
-                .findByCategoryName(category, sortedPageable);
-
-        } else if (hasPrice) {
-            storePage = storeRepository
-            	    .findByPriceLessThanEqual(price, sortedPageable);
+                .findAllOrderByReviewCountDesc(reviewPageable);
 
         } else {
-            storePage = storeRepository.findAll(sortedPageable);
+
+            /* =========================
+               ② それ以外は通常の並び替え
+               ========================= */
+            Sort sortCondition;
+
+            if (sort == null || sort.isEmpty() || "new_desc".equals(sort)) {
+                sortCondition = Sort.by(Sort.Direction.DESC, "createdAt");
+
+            } else if ("rating_desc".equals(sort)) {
+                sortCondition = Sort.by(Sort.Direction.DESC, "averageRating");
+
+            } else if ("price_desc".equals(sort)) {
+                sortCondition = Sort.by(Sort.Direction.DESC, "price");
+
+            } else if ("price_asc".equals(sort)) {
+                sortCondition = Sort.by(Sort.Direction.ASC, "price");
+
+            } else {
+                sortCondition = Sort.by(Sort.Direction.DESC, "createdAt");
+            }
+
+            Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                sortCondition
+            );
+
+            /* =========================
+               ③ 検索条件
+               ========================= */
+            if (hasKeyword && hasCategory && hasPrice) {
+                storePage = storeRepository
+                    .findByNameContainingAndCategoryNameAndPriceLessThanEqual(
+                        keyword, category, price, sortedPageable);
+
+            } else if (hasKeyword && hasCategory) {
+                storePage = storeRepository
+                    .findByNameContainingAndCategoryName(
+                        keyword, category, sortedPageable);
+
+            } else if (hasCategory && hasPrice) {
+                storePage = storeRepository
+                    .findByCategoryNameAndPriceLessThanEqual(
+                        category, price, sortedPageable);
+
+            } else if (hasKeyword) {
+                storePage = storeRepository
+                    .findByNameContaining(keyword, sortedPageable);
+
+            } else if (hasCategory) {
+                storePage = storeRepository
+                    .findByCategoryName(category, sortedPageable);
+
+            } else if (hasPrice) {
+                storePage = storeRepository
+                    .findByPriceLessThanEqual(price, sortedPageable);
+
+            } else {
+                storePage = storeRepository.findAll(sortedPageable);
+            }
         }
 
         /* =========================

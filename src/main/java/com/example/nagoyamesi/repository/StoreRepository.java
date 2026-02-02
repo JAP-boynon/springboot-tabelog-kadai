@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.example.nagoyamesi.entity.Store;
 
@@ -51,5 +52,14 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
     List<Store> findTop6ByOrderByCreatedAtDesc();
     
   //  boolean existsByCategory_Id(Long categoryId);
+    
+    @Query("""
+    	    SELECT s
+    	    FROM Store s
+    	    LEFT JOIN Review r ON r.store = s
+    	    GROUP BY s
+    	    ORDER BY COUNT(r.id) DESC
+    	""")
+    	Page<Store> findAllOrderByReviewCountDesc(Pageable pageable);
 }
 

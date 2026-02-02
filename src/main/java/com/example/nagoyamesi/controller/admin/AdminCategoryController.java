@@ -60,21 +60,28 @@ public class AdminCategoryController {
     public String newCategory() {
         return "admin/categories/new";
     }
-
     // カテゴリ登録処理
     @PostMapping("/admin/categories")
-    public String createCategory(@RequestParam("name") String name,
-    		RedirectAttributes redirectAttributes) {
+    public String createCategory(
+            @RequestParam("name") String name,
+            RedirectAttributes redirectAttributes) {
 
-        Category category = new Category();
-        category.setName(name);
+        try {
+            Category category = new Category();
+            category.setName(name);
+            categoryRepository.save(category);
 
-        categoryRepository.save(category);
-        
-        redirectAttributes.addFlashAttribute("successMessage", "カテゴリを登録しました");
+            redirectAttributes.addFlashAttribute(
+                "successMessage", "カテゴリを登録しました");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                "errorMessage", "同じカテゴリ名は登録できません");
+        }
 
         return "redirect:/admin/categories";
     }
+   
     
  // カテゴリ編集画面
     @GetMapping("/admin/categories/{id}/edit")
@@ -87,8 +94,8 @@ public class AdminCategoryController {
 
         return "admin/categories/edit";
     }
-
-    // カテゴリ更新処理
+    
+ // カテゴリ更新処理
     @PostMapping("/admin/categories/{id}")
     public String updateCategory(
             @PathVariable("id") Long id,
@@ -98,13 +105,21 @@ public class AdminCategoryController {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
 
-        category.setName(name);
-        categoryRepository.save(category);
-        
-        redirectAttributes.addFlashAttribute("successMessage", "カテゴリを更新しました");
+        try {
+            category.setName(name);
+            categoryRepository.save(category);
+
+            redirectAttributes.addFlashAttribute(
+                "successMessage", "カテゴリを更新しました");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                "errorMessage", "同じカテゴリ名には変更できません");
+        }
 
         return "redirect:/admin/categories";
     }
+
  // カテゴリ削除
     @PostMapping("/admin/categories/{id}/delete")
     public String deleteCategory(@PathVariable("id") Long id,
