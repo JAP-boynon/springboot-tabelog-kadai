@@ -18,6 +18,8 @@ import com.example.nagoyamesi.entity.PasswordResetToken;
 import com.example.nagoyamesi.entity.User;
 import com.example.nagoyamesi.repository.PasswordResetTokenRepository;
 import com.example.nagoyamesi.repository.UserRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 @Transactional
 @Controller
 public class PasswordResetController {
@@ -54,6 +56,7 @@ public class PasswordResetController {
     @PostMapping("/password/reset")
     public String sendResetMail(
             @RequestParam("email") String email,
+            HttpServletRequest request,
             Model model) {
     	
     	System.out.println("=== sendResetMail called ===");
@@ -77,12 +80,16 @@ public class PasswordResetController {
         resetToken.setUser(user);
         resetToken.setToken(token);
         resetToken.setExpiresAt(LocalDateTime.now().plusHours(1));
-
         passwordResetTokenRepository.save(resetToken);
+        
+        String baseUrl =
+                request.getScheme() + "://" +
+                request.getServerName();
+
 
         // 再設定URL
         String resetUrl =
-                "http://localhost:8080/password/reset/form/" + token;
+                baseUrl + "/password/reset/form/" + token;
 
         // メール送信
         SimpleMailMessage mail = new SimpleMailMessage();
