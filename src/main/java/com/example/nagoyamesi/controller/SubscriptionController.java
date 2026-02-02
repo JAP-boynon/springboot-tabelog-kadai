@@ -93,7 +93,7 @@ public class SubscriptionController {
 	        User user = userDetails.getUser();
 
 	        // 有料会員にする
-	        user.setPaid(true);
+	      //  user.setPaid(true);
 	        userRepository.save(user);
 
 	        redirectAttributes.addFlashAttribute(

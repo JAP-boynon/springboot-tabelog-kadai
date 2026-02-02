@@ -11,6 +11,7 @@ import com.example.nagoyamesi.repository.UserRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
+import com.stripe.model.Event;
 import com.stripe.model.PaymentMethod;
 import com.stripe.model.PaymentMethodCollection;
 import com.stripe.model.checkout.Session;
@@ -102,7 +103,24 @@ public class StripeService {
     }
 
 
- // クレカ情報「表示用」取得
+    public void processSessionCompleted(Event event) {
+
+        Session session = (Session) event
+                .getDataObjectDeserializer()
+                .getObject()
+                .orElseThrow();
+
+        String customerId = session.getCustomer();
+        String email = session.getCustomerDetails().getEmail();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow();
+
+        user.setPaid(true);
+        user.setStripeCustomerId(customerId);
+
+        userRepository.save(user);
+    }
    
  // クレカ情報「表示用」取得
     public PaymentMethod getDefaultPaymentMethod(User user) {
