@@ -93,7 +93,8 @@ public class PasswordResetController {
 
         // メール送信
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setFrom("noreply@nagoyameshi.local");
+        mail.setFrom("nagoyameshi@sandbox0611ba2bd2ea47ad97a3a3768c04af6b.mailgun.org");
+      //  mail.setFrom("noreply@nagoyameshi.local");
         mail.setTo(user.getEmail());
         mail.setSubject("【NAGOYAMESHI】パスワード再設定");
         mail.setText(
