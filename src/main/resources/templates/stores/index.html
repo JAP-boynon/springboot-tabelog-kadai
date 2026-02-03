@@ -102,7 +102,7 @@
   </option>
 
 <option value="price_desc"
-        th:selcted="${sort == 'price_desc'}">
+        th:selected="${sort == 'price_desc'}">
         価格が高い順
         </option>
 
@@ -133,10 +133,18 @@
 
               <!-- 画像 -->
              <div class="col-md-4 store-image">
-             <img
-              th:src="@{/storage/{file}(file=${store.imageName})}"
-               alt="店舗画像">
-               </div>
+            <img th:if="${store.imageUrl != null}"
+     th:src="${store.imageUrl}"
+     alt="店舗画像">
+
+<img th:if="${store.imageUrl == null and store.imageName != null}"
+     th:src="@{/storage/{file}(file=${store.imageName})}"
+     alt="店舗画像">
+
+<img th:if="${store.imageUrl == null and store.imageName == null}"
+     th:src="@{/images/no-image.png}"
+     alt="NO IMAGE">
+             </div>
 
               <!-- 情報 -->
               <div class="col-md-8">

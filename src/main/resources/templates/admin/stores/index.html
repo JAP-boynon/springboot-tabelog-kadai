@@ -55,9 +55,25 @@
     <td th:text="${store.id}"></td>
 
     <td>
+		<!-- Cloudinary -->
+<img th:if="${store.imageUrl != null}"
+     th:src="${store.imageUrl}"
+     style="width:100px; height:70px; object-fit:cover;">
+
+<!-- ローカル保存（後方互換） -->
+<img th:if="${store.imageUrl == null and store.imageName != null}"
+     th:src="@{/storage/{file}(file=${store.imageName})}"
+     style="width:100px; height:70px; object-fit:cover;">
+
+<!-- NO IMAGE -->
+<img th:if="${store.imageUrl == null and store.imageName == null}"
+     th:src="@{/images/no-image.png}"
+     style="width:100px; height:70px; object-fit:cover;">
+		<!--
         <img th:if="${store.imageName != null}"
              th:src="@{/storage/{file}(file=${store.imageName})}"
              style="width:100px; height:70px; object-fit:cover;">
+             -->
     </td>
 
     <td th:text="${store.name}"></td>

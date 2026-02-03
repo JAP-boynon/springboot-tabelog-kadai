@@ -94,9 +94,20 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
      class="store-card top-store-card">
    
      
-     <img th:if="${store.imageName != null}"
+    <!-- Cloudinary -->
+<img th:if="${store.imageUrl != null}"
+     th:src="${store.imageUrl}"
+     alt="店舗画像">
+
+<!-- ローカル保存（旧） -->
+<img th:if="${store.imageUrl == null and store.imageName != null}"
      th:src="@{/storage/{file}(file=${store.imageName})}"
-      alt="店舗画像">
+     alt="店舗画像">
+
+<!-- 画像なし -->
+<img th:if="${store.imageUrl == null and store.imageName == null}"
+     th:src="@{/images/no-image.png}"
+     alt="NO IMAGE">
 
 <img th:unless="${store.imageName != null}"
      th:src="@{/images/no-image.png}"
@@ -138,10 +149,25 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <a th:each="store : ${newStores}"
      th:href="@{/stores/{id}(id=${store.id})}"
      class="store-card top-store-card">
-     
+     <!-- Cloudinary -->
+<img th:if="${store.imageUrl != null}"
+     th:src="${store.imageUrl}"
+     alt="店舗画像">
+
+<!-- ローカル保存（旧） -->
+<img th:if="${store.imageUrl == null and store.imageName != null}"
+     th:src="@{/storage/{file}(file=${store.imageName})}"
+     alt="店舗画像">
+
+<!-- 画像なし -->
+<img th:if="${store.imageUrl == null and store.imageName == null}"
+     th:src="@{/images/no-image.png}"
+     alt="NO IMAGE">
+     <!--
      <img th:if="${store.imageName != null}"
      th:src="@{/storage/{file}(file=${store.imageName})}"
      alt="店舗画像">
+     -->
 
     <img th:unless="${store.imageName != null}"
      th:src="@{/images/no-image.png}"

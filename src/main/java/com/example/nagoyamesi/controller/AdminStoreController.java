@@ -82,6 +82,7 @@ public class AdminStoreController {
                 store.getId(),
                 store.getName(),
                 store.getCategoryName(),
+                store.getImageUrl(),
                 null, // 画像はファイルなのでnullでOK
                 store.getPrice(),
                 store.getDescription(),
@@ -117,8 +118,11 @@ public class AdminStoreController {
             model.addAttribute("imageName", store.getImageName());
             return "admin/stores/edit";
         }
-
+       /*
         storeService.update(storeEditForm);
+        */
+     // ★ id を明示的に渡す
+        storeService.update(id, storeEditForm);
         redirectAttributes.addFlashAttribute("successMessage", "店舗情報を更新しました。");
 
         return "redirect:/admin/stores";

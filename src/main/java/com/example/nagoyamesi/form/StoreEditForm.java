@@ -20,6 +20,9 @@ public class StoreEditForm {
 
     @NotBlank(message = "カテゴリを入力してください。")
     private String categoryName;
+    
+  //cloudinary用
+    private String imageUrl;
 
     // 画像（差し替え用・任意）
     private MultipartFile imageFile;

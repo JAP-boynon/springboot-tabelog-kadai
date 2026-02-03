@@ -97,9 +97,13 @@ public class StoreService {
     */
     
     @Transactional
-    public void update(StoreEditForm form) {
+    /*
+   public void update(StoreEditForm form) {
+   */
+    public void update(Integer id, StoreEditForm form) {
 
         Store store = storeRepository.findById(form.getId())
+    	
                 .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
 
         MultipartFile imageFile = form.getImageFile();

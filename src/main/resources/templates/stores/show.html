@@ -62,12 +62,19 @@
 	   
     <!-- 店舗画像 -->
 <div class="store-detail-image mb-4">
-  <img
-    th:src="@{/storage/{file}(file=${store.imageName})}"
-    alt="店舗画像"
-    style="width:100%; max-width:700px; object-fit:cover;"
-  >
-</div>
+  <img th:if="${store.imageUrl != null}"
+     th:src="${store.imageUrl}"
+     alt="店舗画像"
+     style="width:100%; max-width:700px; object-fit:cover;">
+
+<img th:if="${store.imageUrl == null and store.imageName != null}"
+     th:src="@{/storage/{file}(file=${store.imageName})}"
+     alt="店舗画像"
+     style="width:100%; max-width:700px; object-fit:cover;">
+
+<img th:if="${store.imageUrl == null and store.imageName == null}"
+     th:src="@{/images/no-image.png}"
+     alt="NO IMAGE">
 
 　　　　<h1 class="page-title mb-4" th:text="${store.name}"></h1>
 

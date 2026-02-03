@@ -31,12 +31,22 @@
         編集
     </a>
 </div>
+<!-- 店舗画像 -->
+<div class="mb-4 text-center">
+ <!-- Cloudinary -->
+<img th:if="${store.imageUrl != null}"
+     th:src="${store.imageUrl}"
+     style="max-width:400px; width:100%; object-fit:cover;">
 
-<div th:if="${store.imageUrl}" class="mb-4 text-center">
-  <img
-    th:src="${store.imageUrl}"
-    alt="店舗画像"
-    style="max-width: 400px; width:100%; object-fit: cover;">
+<!-- ローカル保存（既存データ用） -->
+<img th:if="${store.imageUrl == null and store.imageName != null}"
+     th:src="@{/storage/{file}(file=${store.imageName})}"
+     style="max-width:400px; width:100%; object-fit:cover;">
+
+<!-- NO IMAGE -->
+<img th:if="${store.imageUrl == null and store.imageName == null}"
+     th:src="@{/images/no-image.png}"
+     style="max-width:400px; width:100%; object-fit:cover;">
 </div>
 <!--
 <div th:if="${store.imageName}" class="mb-4 text-center">
