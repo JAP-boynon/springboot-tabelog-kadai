@@ -30,6 +30,9 @@ public class Store {
 	@Column(name = "image_name")
 	private String imageName;
 	
+	@Column(name = "image_url")
+	private String imageUrl;
+	
 	@Column(name = "category_name")
 	private String categoryName;
 	

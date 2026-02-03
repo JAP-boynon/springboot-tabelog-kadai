@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS stores (
   category_name VARCHAR(100),
   price INT,
   image_name VARCHAR(255),
+  image_url VARCHAR(500),
   description TEXT,
   business_hours VARCHAR(100),
   opening_time TIME,

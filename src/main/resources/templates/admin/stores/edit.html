@@ -48,11 +48,17 @@
   <div class="mb-3">
     <label class="form-label fw-bold">店舗画像</label>
 
-    <!-- 既存画像 -->
+<!--既存写真-->
+<div th:if="${storeEditForm.imageUrl}" class="mb-2">
+  <img th:src="${storeEditForm.imageUrl}"
+       style="max-width:200px; border-radius:8px;">
+</div>
+    <!-- 既存画像 
     <div th:if="${imageName}" class="mb-2">
       <img th:src="@{/storage/{file}(file=${imageName})}"
            style="max-width:200px; border-radius:8px;">
     </div>
+    -->
 
     <input type="file" class="form-control" th:field="*{imageFile}">
   </div>

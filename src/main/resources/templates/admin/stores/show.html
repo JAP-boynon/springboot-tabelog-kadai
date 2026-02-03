@@ -32,6 +32,13 @@
     </a>
 </div>
 
+<div th:if="${store.imageUrl}" class="mb-4 text-center">
+  <img
+    th:src="${store.imageUrl}"
+    alt="店舗画像"
+    style="max-width: 400px; width:100%; object-fit: cover;">
+</div>
+<!--
 <div th:if="${store.imageName}" class="mb-4 text-center">
     <img
         th:src="@{/storage/{file}(file=${store.imageName})}"
@@ -39,6 +46,7 @@
         style="max-width: 400px; width:100%; object-fit: cover;"
     >
 </div>
+-->
 </div>
 
     <!-- 店舗情報 -->

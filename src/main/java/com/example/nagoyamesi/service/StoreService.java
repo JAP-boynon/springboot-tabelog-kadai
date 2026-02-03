@@ -1,10 +1,6 @@
 package com.example.nagoyamesi.service;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +17,43 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository; 
+    private final CloudinaryService cloudinaryService;
 
     public StoreService(StoreRepository storeRepository,
-    		ReviewRepository reviewRepository) {
+    		ReviewRepository reviewRepository,
+    		  CloudinaryService cloudinaryService) {
         this.storeRepository = storeRepository;
         this.reviewRepository = reviewRepository;
+        this.cloudinaryService = cloudinaryService;
     }
-    
+    @Transactional
+    public void create(StoreRegisterForm form) {
 
+        Store store = new Store();
+        MultipartFile imageFile = form.getImageFile();
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                String imageUrl = cloudinaryService.upload(imageFile);
+                store.setImageUrl(imageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException("画像アップロードに失敗しました", e);
+            }
+        }
+
+        store.setName(form.getName());
+        store.setCategoryName(form.getCategoryName());
+        store.setPrice(form.getPrice());
+        store.setDescription(form.getDescription());
+        store.setBusinessHours(form.getBusinessHours());
+        store.setRegularHoliday(form.getRegularHoliday());
+        store.setPostalCode(form.getPostalCode());
+        store.setAddress(form.getAddress());
+        store.setPhoneNumber(form.getPhoneNumber());
+
+        storeRepository.save(store);
+    }
+/*
     @Transactional
     public void create(StoreRegisterForm form) {
 
@@ -55,7 +80,8 @@ public class StoreService {
 
         storeRepository.save(store);
     }
-
+    */
+/*
     private String generateNewFileName(String fileName) {
         String extension = fileName.substring(fileName.lastIndexOf("."));
         return UUID.randomUUID().toString() + extension;
@@ -68,7 +94,38 @@ public class StoreService {
             throw new RuntimeException(e);
         }
     }
+    */
     
+    @Transactional
+    public void update(StoreEditForm form) {
+
+        Store store = storeRepository.findById(form.getId())
+                .orElseThrow(() -> new RuntimeException("店舗が見つかりません"));
+
+        MultipartFile imageFile = form.getImageFile();
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                String imageUrl = cloudinaryService.upload(imageFile);
+                store.setImageUrl(imageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException("画像アップロードに失敗しました", e);
+            }
+        }
+
+        store.setName(form.getName());
+        store.setCategoryName(form.getCategoryName());
+        store.setPrice(form.getPrice());
+        store.setDescription(form.getDescription());
+        store.setBusinessHours(form.getBusinessHours());
+        store.setRegularHoliday(form.getRegularHoliday());
+        store.setPostalCode(form.getPostalCode());
+        store.setAddress(form.getAddress());
+        store.setPhoneNumber(form.getPhoneNumber());
+
+        storeRepository.save(store);
+    }
+    /*
     @Transactional
     public void update(StoreEditForm form) {
 
@@ -101,6 +158,8 @@ public class StoreService {
 
         storeRepository.save(store);
     }
+    */
+    
     @Transactional
     public void delete(Integer id) {
         Store store = storeRepository.findById(id)
