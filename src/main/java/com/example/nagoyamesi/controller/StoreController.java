@@ -60,7 +60,7 @@ public class StoreController {
      * トップページ
      */
     @GetMapping("/")
-    public String top(Model model) {
+    public String index(Model model) {
     	//評価高いお店
     	model.addAttribute(
     			  "highRatedStores",
@@ -71,7 +71,7 @@ public class StoreController {
     			  "newStores",
     			  storeRepository.findTop6ByOrderByCreatedAtDesc()
     			);
-        return "top";
+        return "index";
     }
     /**
      * 店舗一覧ページ（検索結果）

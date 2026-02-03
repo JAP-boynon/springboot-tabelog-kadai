@@ -10,8 +10,9 @@
 <body>
 <div th:replace="~{fragment :: header}"></div>
 
-<main class="container pt-4 pb-5">
+<main class="pt-4 pb-5">
 
+<div class="container">
     <!-- パンくず -->
     <nav class="mb-4" aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -31,16 +32,18 @@
     </a>
 </div>
 
-<div th:if="${store.imageName}" class="mb-4">
+<div th:if="${store.imageName}" class="mb-4 text-center">
     <img
         th:src="@{/storage/{file}(file=${store.imageName})}"
         alt="店舗画像"
         style="max-width: 400px; width:100%; object-fit: cover;"
     >
 </div>
+</div>
 
     <!-- 店舗情報 -->
-    <div class="container">
+
+    <div class="store-show-body">
 
         <div class="row pb-2 mb-2 border-bottom">
             <div class="col-4 fw-bold">ID</div>
@@ -97,6 +100,7 @@
         </div>
 
     </div>
+
 
 
 </main>

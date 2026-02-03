@@ -597,6 +597,33 @@ main {
   color: #000;
 }
 
+/* 店舗編集フォームだけ中央寄せ */
+.store-edit-form {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* 管理者：店舗詳細ページ */
+.store-show-body {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.store-show-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.store-show-row .label {
+  font-weight: bold;
+}
+
+.store-show-row .value {
+  white-space: pre-wrap;
+}
+
 
 
 @media screen and (min-width: 1400px) {
