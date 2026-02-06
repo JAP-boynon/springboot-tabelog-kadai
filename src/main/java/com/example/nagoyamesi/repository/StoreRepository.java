@@ -53,6 +53,14 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
     
   //  boolean existsByCategory_Id(Long categoryId);
     
+    Page<Store> findByPrivateRoomTrue(Pageable pageable);
+
+    Page<Store> findByAllYouCanDrinkTrue(Pageable pageable);
+
+    Page<Store> findByTakeoutTrue(Pageable pageable);
+
+    Page<Store> findByLateNightTrue(Pageable pageable);
+    
     @Query("""
     	    SELECT s
     	    FROM Store s

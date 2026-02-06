@@ -88,11 +88,50 @@ public class StoreController {
         @RequestParam(required = false) String category,
         @RequestParam(required = false) Integer price,
         @RequestParam(required = false) String sort,
+        @RequestParam(required = false) String feature,
         @PageableDefault(size = 10) Pageable pageable,
         Model model
     ) {
 
         Page<Store> storePage;
+        
+
+     // =========================
+     // ★ feature検索（最優先）
+     // =========================
+     if (feature != null && !feature.isEmpty()) {
+
+         Pageable sortedPageable = PageRequest.of(
+             pageable.getPageNumber(),
+             pageable.getPageSize(),
+             Sort.by(Sort.Direction.DESC, "createdAt")
+         );
+
+         switch (feature) {
+             case "private_room":
+                 storePage = storeRepository.findByPrivateRoomTrue(sortedPageable);
+                 break;
+
+             case "all_you_can_drink":
+                 storePage = storeRepository.findByAllYouCanDrinkTrue(sortedPageable);
+                 break;
+
+             case "takeout":
+                 storePage = storeRepository.findByTakeoutTrue(sortedPageable);
+                 break;
+
+             case "late_night":
+                 storePage = storeRepository.findByLateNightTrue(sortedPageable);
+                 break;
+
+             default:
+                 storePage = storeRepository.findAll(sortedPageable);
+         }
+
+         model.addAttribute("storePage", storePage);
+         model.addAttribute("feature", feature);
+         return "stores/index";
+     }
 
         boolean hasKeyword = keyword != null && !keyword.isEmpty();
         boolean hasCategory = category != null && !category.isEmpty();

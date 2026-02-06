@@ -177,6 +177,40 @@ main {
 	transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.feature-card img {
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: 12px;
+	transition: filter 0.25s ease;
+}
+
+.feature-card:hover img {
+	filter: brightness(0.7);	
+	transform: scale(1.05);
+
+}
+
+/* 白いフィルター */
+.feature-card::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(255,255,255,0);
+	transition: background 0.2s ease;
+	border-radius: 12px;
+}
+
+/* ホバー時に白く */
+.feature-card:hover::after {
+	background: rgba(255,255,255,0.35);
+}
+
+.feature-card:visited,
+.feature-card:hover {
+	color: #333;
+}
+
 .feature-card:hover {
 	transform: translateY(-4px);
 	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);

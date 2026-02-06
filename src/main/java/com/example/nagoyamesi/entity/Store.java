@@ -72,6 +72,18 @@ public class Store {
 	@Column(name = "closing_time")
 	private LocalTime closingTime;
 	
+	@Column(name = "private_room")
+	private Boolean privateRoom;
+
+	@Column(name = "all_you_can_drink")
+	private Boolean allYouCanDrink;
+
+	@Column(name = "takeout")
+	private Boolean takeout;
+
+	@Column(name = "late_night")
+	private Boolean lateNight;
+	
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
 	private List<Review> reviews = new ArrayList<>();
 
