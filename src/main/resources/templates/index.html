@@ -109,9 +109,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
      th:src="@{/images/no-image.png}"
      alt="NO IMAGE">
 
-<img th:unless="${store.imageName != null}"
-     th:src="@{/images/no-image.png}"
-     alt="NO IMAGE">
    
      
    <div class="store-rating">
@@ -165,15 +162,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <img th:if="${store.imageUrl == null and store.imageName == null}"
      th:src="@{/images/no-image.png}"
      alt="NO IMAGE">
-     <!--
-     <img th:if="${store.imageName != null}"
-     th:src="@{/storage/{file}(file=${store.imageName})}"
-     alt="店舗画像">
-     -->
-
-    <img th:unless="${store.imageName != null}"
-     th:src="@{/images/no-image.png}"
-     alt="NO IMAGE">
+   
     
     <div class="store-info">
       <h3 th:text="${store.name}"></h3>
