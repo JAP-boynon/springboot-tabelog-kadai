@@ -129,6 +129,10 @@ public class StoreController {
          }
 
          model.addAttribute("storePage", storePage);
+         model.addAttribute("keyword", keyword);
+         model.addAttribute("category", category);
+         model.addAttribute("price", price);
+         model.addAttribute("sort", sort);
          model.addAttribute("feature", feature);
          return "stores/index";
      }

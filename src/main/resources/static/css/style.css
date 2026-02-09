@@ -167,6 +167,7 @@ main {
 }
 
 .feature-card {
+	position: relative;
 	display: block;
 	border-radius: 12px;
 	overflow: hidden;
@@ -665,4 +666,20 @@ main {
 		max-width: 1200px;
 		margin: 0 auto;
 	}
+	}
+	
+	@media (max-width: 768px) {
+  .top-image {
+    height: 260px;
+  }
+
+  .hero-text {
+    left: 20px;
+    bottom: 20px;
+  }
+
+  .search-form input {
+    width: 100%;
+  }
 }
+

@@ -137,7 +137,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
   <span class="category-badge"
         th:text="${store.categoryName}"></span>
+
 </div>
+
   </a>
 </div>
   </section>
@@ -202,27 +204,28 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   </div>
 </section>
 
+
 <section class="top-section">
   <h2 class="section-title">条件を指定して探す</h2>
 
   <div class="feature-grid">
 
-    <a th:href="@{/stores?feature=private_room}" class="feature-card">
+   <a th:href="@{/stores(feature='private_room')}" class="feature-card">
      <img src="/images/features/private-room.jpg" alt="個室ありの店舗">
       <span>個室あり</span>
     </a>
 
-    <a th:href="@{/stores?feature=all_you_can_drink}" class="feature-card">
+   <a th:href="@{/stores(feature='all_you_can_drink')}" class="feature-card">
       <img src="/images/features/drink.jpg" alt="飲み放題のある店舗">
       <span>飲み放題</span>
     </a>
 
-    <a th:href="@{/stores?feature=takeout}" class="feature-card">
+   <a th:href="@{/stores(feature='takeout')}" class="feature-card">
       <img src="/images/features/takeout.jpg" alt="テイクアウト可能な店舗">
       <span>テイクアウト</span>
     </a>
 
-    <a th:href="@{/stores?feature=late_night}" class="feature-card">
+    <a th:href="@{/stores(feature='late_night')}" class="feature-card">
       <img src="/images/features/night.jpg" alt="深夜営業している店舗">
       <span>深夜営業</span>
     </a>
